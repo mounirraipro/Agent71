@@ -1,40 +1,48 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
-  ArrowRight, BarChart3, Bell, Box, Building2, Check, ChevronDown,
-  CircleHelp, Clock3, FileCheck2, FileText, Gauge, Layers3, Link2,
-  Menu, PackageCheck, Play, Plus, Search, Send, Settings2,
-  ShoppingCart, WalletCards, X,
+  ArrowRight, BarChart3, Bell, Box, Building2, Check, CheckCircle2,
+  ChevronDown, FileText, Gauge, Layers3, Menu, PackageCheck,
+  Play, Search, Send, ShoppingCart, WalletCards, X,
 } from 'lucide-react'
 
-const moduleData = [
-  { name: 'Finance', icon: WalletCards, note: 'One action updates the whole business.' },
-  { name: 'Sales', icon: BarChart3, note: 'Turn an approved quote into revenue without re-entering a thing.' },
-  { name: 'Inventory', icon: Box, note: 'Stock moves when the business moves, with every reservation accounted for.' },
-  { name: 'Purchasing', icon: ShoppingCart, note: 'Approvals, suppliers and landed costs stay in one clear trail.' },
-  { name: 'Operations', icon: Settings2, note: 'Give every team the same context, without exposing unnecessary noise.' },
+const flowSteps = [
+  { name: 'Sell', label: 'Sales order SO-071', icon: ShoppingCart, detail: 'Atlas Retail', meta: '12,450 MAD' },
+  { name: 'Reserve', label: 'Stock reserved', icon: Box, detail: '3 items allocated', meta: 'WH-CAS-01' },
+  { name: 'Invoice', label: 'Invoice ready', icon: FileText, detail: 'INV-071', meta: '12,450 MAD' },
+  { name: 'Reconcile', label: 'Ledger balanced', icon: Layers3, detail: 'All entries match', meta: '0.00 MAD' },
 ]
 
-const workflow = [
-  { name: 'Quote', ref: 'Q-2026-0150', icon: FileText },
-  { name: 'Order', ref: 'SO-2026-0412', icon: FileCheck2 },
-  { name: 'Fulfil', ref: 'SH-2026-0287', icon: PackageCheck },
-  { name: 'Invoice', ref: 'INV-2026-0071', icon: FileText },
-  { name: 'Ledger', ref: 'Pending', icon: Layers3 },
+const moduleItems = [
+  [Gauge, 'Overview'], [ShoppingCart, 'Sales'], [PackageCheck, 'Stock'],
+  [FileText, 'Finance'], [WalletCards, 'Banking'], [BarChart3, 'Reports'],
 ]
 
-const activity = [
-  ['Sales invoice INV-10045', 'Paid by Atlas Retail Ltd.', '2h ago'],
-  ['Purchase order PO-20321', 'Approved by Jane Smith', '5h ago'],
-  ['Goods receipt GR-34012', 'Received from Prime Supplies', '1d ago'],
+const ledgerRows = [
+  ['AR · Atlas Retail', '12,450.00'], ['Sales revenue', '9,000.00'],
+  ['Implementation', '2,000.00'], ['VAT output', '1,450.00'],
 ]
 
-const freeFeatures = ['Core finance', 'Sales & purchasing', 'Inventory', 'Up to 3 users']
-const scaleFeatures = ['Advanced workflows', 'Multi-entity controls', 'Priority support', 'Unlimited users']
+function Reveal({ as: Tag = 'div', className = '', children, ...props }) {
+  const ref = useRef(null)
+  useEffect(() => {
+    const node = ref.current
+    if (!node) return undefined
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        node.classList.add('is-revealed')
+        observer.disconnect()
+      }
+    }, { threshold: 0.12 })
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
+  return <Tag ref={ref} className={`reveal ${className}`} {...props}>{children}</Tag>
+}
 
-function Brand({ light = false }) {
+function Brand({ inverse = false }) {
   return (
-    <a className={`brand ${light ? 'brand--light' : ''}`} href="#top" aria-label="Agent 71 home">
-      <span className="brand-mark">71</span><strong>Agent 71</strong>
+    <a className={`brand ${inverse ? 'brand--inverse' : ''}`} href="#top" aria-label="Agent 71 home">
+      <span className="brand-mark"><i>7</i><i>1</i></span><strong>Agent 71</strong>
     </a>
   )
 }
@@ -44,127 +52,188 @@ function Header() {
   return (
     <header className="site-header">
       <div className="nav-shell">
-        <Brand />
-        <button className="mobile-menu" type="button" aria-label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open} onClick={() => setOpen((value) => !value)}>{open ? <X /> : <Menu />}</button>
+        <Brand inverse />
+        <button className="menu-button" type="button" aria-label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open} onClick={() => setOpen((value) => !value)}>{open ? <X /> : <Menu />}</button>
         <nav className={`main-nav ${open ? 'main-nav--open' : ''}`} aria-label="Main navigation">
-          <a href="#platform" onClick={() => setOpen(false)}>Platform</a><a href="#solutions" onClick={() => setOpen(false)}>Solutions</a><a href="#pricing" onClick={() => setOpen(false)}>Pricing</a><a href="#resources" onClick={() => setOpen(false)}>Resources</a>
+          <a href="#platform" onClick={() => setOpen(false)}>Platform</a>
+          <a href="#why-agent-71" onClick={() => setOpen(false)}>Why Agent 71</a>
+          <a href="#pricing" onClick={() => setOpen(false)}>Pricing</a>
         </nav>
-        <div className="header-actions"><a href="#early-access">Sign in</a><a className="nav-cta" href="#early-access">Get early access</a></div>
+        <div className="nav-actions"><a href="#early-access">Sign in</a><a className="nav-cta" href="#early-access">Start free</a></div>
       </div>
     </header>
   )
 }
 
-function Sparkline() {
-  return <svg className="sparkline" viewBox="0 0 130 34" aria-hidden="true"><path d="M2 29C13 28 18 18 28 22s16 7 24-3 15-10 24-2 17 12 26 0 14-9 26-14" /></svg>
-}
-
-function CashChart() {
-  const bars = [38,56,48,72,61,81,52,67,91,58,77,46,64,84,69,94]
+function MiniLineChart() {
   return (
-    <div className="cash-chart" aria-label="Cash flow chart">
-      <div className="chart-bars" aria-hidden="true">{bars.map((height, index) => <i key={`${height}-${index}`} style={{ height: `${height}%` }} />)}</div>
-      <svg viewBox="0 0 460 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 90C25 76 38 41 65 64s40 30 66-2 38-17 63 7 43 30 67-7 40-28 64 3 40 15 61-8 42-32 74-16" /></svg>
-      <div className="chart-axis"><span>May 1</span><span>May 8</span><span>May 15</span><span>May 22</span><span>May 29</span></div>
-    </div>
+    <svg className="mini-line" viewBox="0 0 300 104" preserveAspectRatio="none" aria-label="Sales trend chart">
+      <defs><linearGradient id="lineFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#4f5dff" stopOpacity=".45" /><stop offset="1" stopColor="#4f5dff" stopOpacity="0" /></linearGradient></defs>
+      <path className="chart-fill" d="M2 92C29 73 39 82 60 62s36-12 54-2 34 10 52-14 33-24 52-5 35 3 47-11 21-17 33-24V104H2Z" />
+      <path className="chart-stroke" d="M2 92C29 73 39 82 60 62s36-12 54-2 34 10 52-14 33-24 52-5 35 3 47-11 21-17 33-24" />
+      <circle cx="298" cy="6" r="4" />
+    </svg>
   )
 }
 
-function AppSidebar({ compact = false }) {
-  const items = [[Gauge,'Dashboard'],[WalletCards,'Finance'],[BarChart3,'Sales'],[Box,'Inventory'],[ShoppingCart,'Purchasing'],[Settings2,'Operations']]
+function AppNav() {
   return (
-    <aside className={`app-sidebar ${compact ? 'app-sidebar--compact' : ''}`}>
-      <Brand light />
-      <nav aria-label="Application navigation">{items.map(([Icon,label],index) => <button className={index === 0 || (compact && label === 'Finance') ? 'is-active' : ''} type="button" key={label}><Icon /><span>{label}</span><ChevronDown /></button>)}</nav>
-      <div className="workspace-name"><Building2 /><span>Acme Industries</span></div>
-      <div className="app-person"><i>JS</i><span><strong>Jane Smith</strong><small>Administrator</small></span></div>
+    <aside className="demo-nav">
+      <Brand inverse />
+      <nav aria-label="Agent 71 application navigation">
+        {moduleItems.map(([Icon, label], index) => <button className={index === 0 ? 'is-active' : ''} type="button" key={label}><Icon /><span>{label}</span></button>)}
+      </nav>
+      <div className="company-switch"><Building2 /><span><strong>Acme Industries</strong><small>Casablanca</small></span><ChevronDown /></div>
     </aside>
   )
 }
 
-function ApprovalPanel() {
-  const [status, setStatus] = useState('pending')
-  if (status !== 'pending') {
-    return <div className={`approval-panel approval-panel--${status}`} role="status"><span className="approval-state"><Check /></span><div><strong>{status === 'approved' ? 'Purchase approved' : 'Request declined'}</strong><small>PO-20321 has been updated.</small></div><button type="button" onClick={() => setStatus('pending')}>Undo</button></div>
-  }
+function HeroDashboard() {
+  const [approved, setApproved] = useState(false)
   return (
-    <aside className="approval-panel">
-      <div className="approval-title"><strong>Approval required</strong><Clock3 /></div>
-      <div className="approval-order"><span><ShoppingCart /></span><div><small>Purchase order</small><strong>PO-20321</strong></div></div>
-      <dl><div><dt>Vendor</dt><dd>Prime Supplies Co.</dd></div><div><dt>Amount</dt><dd>18,750 MAD</dd></div><div><dt>Requested by</dt><dd>Michael Chen</dd></div></dl>
-      <button type="button" onClick={() => setStatus('approved')}>Approve</button><button className="button-muted" type="button" onClick={() => setStatus('declined')}>Reject</button>
-    </aside>
-  )
-}
-
-function DashboardPreview() {
-  const metrics = [['Cash position','2,450,000','+12.4%'],['Net profit','320,000','+8.7%'],['Open invoices','650,000','23 invoices'],['Overdue invoices','120,000','8 invoices']]
-  return (
-    <div className="hero-app" aria-label="Agent 71 finance dashboard preview">
-      <AppSidebar />
-      <div className="app-content">
-        <div className="app-topbar"><strong>Dashboard</strong><div className="app-search"><Search /><span>Search transactions, customers, items…</span><kbd>⌘ K</kbd></div><button type="button" aria-label="Create new"><Plus /></button><Bell /><CircleHelp /></div>
-        <div className="dashboard-content">
-          <div className="dashboard-heading"><div><h2>Finance overview</h2><button type="button">This month <ChevronDown /></button></div><a href="#platform">View report <ArrowRight /></a></div>
-          <div className="dashboard-metrics">{metrics.map(([label,value,trend],index) => <article key={label}><div><small>{label}</small><i /></div><strong>{value}<em>MAD</em></strong><span className={index === 3 ? 'is-overdue' : ''}>{trend}</span><Sparkline /></article>)}</div>
-          <div className="dashboard-lower">
-            <section className="cash-panel"><div className="panel-title"><strong>Cash flow</strong><a href="#platform">View report</a></div><CashChart /></section>
-            <section className="invoice-status"><div className="panel-title"><strong>Invoice status</strong><a href="#platform">View all</a></div><div className="status-content"><div className="status-ring"><span><strong>1.42M</strong><small>Total</small></span></div><ul><li><i />Paid <b>57%</b></li><li><i />Open <b>34%</b></li><li><i />Overdue <b>9%</b></li></ul></div></section>
-            <section className="recent-panel"><div className="panel-title"><strong>Recent activity</strong><a href="#platform">View all</a></div>{activity.map(([title,copy,time]) => <div className="recent-row" key={title}><span><FileText /></span><div><strong>{title}</strong><small>{copy}</small></div><time>{time}</time></div>)}</section>
+    <div className="hero-system" aria-label="Interactive Agent 71 operations dashboard">
+      <div className="system-glow" />
+      <div className="dashboard-window">
+        <AppNav />
+        <div className="demo-main">
+          <div className="demo-top"><strong>Overview</strong><div><Search />Search anything…</div><Bell /></div>
+          <div className="demo-content">
+            <div className="demo-title"><div><small>Friday, 28 August</small><h2>Business pulse</h2></div><button type="button">This month <ChevronDown /></button></div>
+            <div className="metric-strip">
+              <article><small>Sales</small><strong>840K <em>MAD</em></strong><span>+18.2%</span><MiniLineChart /></article>
+              <article><small>Operations</small><div className="health-ring"><span>98%</span></div><span>On track</span></article>
+              <article><small>Cash position</small><strong>2.45M <em>MAD</em></strong><div className="mini-bars">{[42,62,49,78,71,94].map((height, index) => <i key={height} style={{'--bar': `${height}%`, '--delay': `${index * 90}ms`}} />)}</div></article>
+            </div>
+            <div className="transaction-panel">
+              <div className="panel-head"><strong>Recent transactions</strong><button type="button">View all <ArrowRight /></button></div>
+              {[['SO-1048','Atlas Retail','Order','84,500'],['PO-2215','Vertex Supplies','Purchase','118,000'],['INV-3347','Acme Industries','Invoice','245,000'],['PAY-8872','Hikari Bank','Payment','62,400']].map((row, index) => <div className="transaction-row" key={row[0]}><i className={`dot dot--${index}`} /><strong>{row[0]}</strong><span>{row[1]}</span><span>{row[2]}</span><b>{row[3]} MAD</b></div>)}
+            </div>
           </div>
         </div>
       </div>
-      <ApprovalPanel />
+      <div className={`approval-float ${approved ? 'is-approved' : ''}`} role="status">
+        <div className="approval-icon">{approved ? <Check /> : <FileText />}</div>
+        <div><small>{approved ? 'Approved' : 'Approval'}</small><strong>{approved ? 'Invoice released' : 'Invoice INV-3347'}</strong><span>245,000 MAD</span></div>
+        <button type="button" onClick={() => setApproved((value) => !value)}>{approved ? 'Undo' : 'Approve'}</button>
+      </div>
+      <ol className="hero-flow" aria-label="Order to ledger flow">
+        {[['Order',ShoppingCart],['Stock',Box],['Invoice',FileText],['Ledger',Layers3]].map(([label, Icon], index) => <li key={label}><div><Icon /></div><span><strong>{label}</strong><small>{index === 0 ? 'SO-1048' : index === 1 ? 'Reserved' : index === 2 ? 'INV-3347' : 'Recorded'}</small></span>{index < 3 ? <ArrowRight /> : null}</li>)}
+      </ol>
+      <div className="hero-insights" aria-label="Live business insights">
+        <article className="stock-insight"><div className="insight-head"><strong>Stock availability</strong><span>Live</span></div>{[['A-1001','1,250','930'],['B-2002','850','640'],['C-3003','620','530']].map((row) => <div className="stock-row" key={row[0]}><Box /><b>{row[0]}</b><span>{row[1]}</span><em>{row[2]}</em></div>)}</article>
+        <article className="trend-insight"><div className="insight-head"><strong>Sales trend</strong><span>+18.2%</span></div><MiniLineChart /></article>
+        <article className="cash-insight"><div className="insight-head"><strong>Cash flow</strong><span>Healthy</span></div><div className="cash-bars">{[39,61,49,75,63,88,70].map((height,index) => <i key={`${height}-${index}`} style={{'--cash': `${height}%`, '--delay': `${index * 80}ms`}} />)}</div></article>
+      </div>
     </div>
   )
 }
 
 function Hero() {
+  const moveLight = (event) => {
+    const rect = event.currentTarget.getBoundingClientRect()
+    event.currentTarget.style.setProperty('--pointer-x', `${event.clientX - rect.left}px`)
+    event.currentTarget.style.setProperty('--pointer-y', `${event.clientY - rect.top}px`)
+  }
   return (
-    <main id="top"><Header /><section className="hero"><div className="blueprint blueprint--left" aria-hidden="true" /><div className="blueprint blueprint--right" aria-hidden="true" /><div className="hero-copy page-shell"><h1>One place to run<br />your entire business.</h1><p>Agent 71 brings finance, sales, inventory, purchasing and operations together—without legacy ERP cost or spreadsheet chaos.</p><div className="hero-actions"><a className="button button--primary" href="#early-access">Start free</a><a className="button button--secondary" href="#platform"><Play />Watch product tour</a></div><small>Free plan <i /> No credit card <i /> Built to scale</small></div><div className="page-shell hero-stage"><DashboardPreview /></div></section></main>
+    <main className="hero" id="top" onPointerMove={moveLight}>
+      <Header />
+      <div className="hero-ambient" aria-hidden="true" />
+      <div className="hero-shell">
+        <div className="hero-copy">
+          <h1><span>Run the whole</span><span>business.</span><span>In one <em>flow.</em></span></h1>
+          <p>Finance, sales, stock and operations—finally moving as one.</p>
+          <div className="hero-actions"><a className="button button--solid" href="#early-access">Start free <ArrowRight /></a><a className="button button--outline" href="#platform"><Play /> See it in motion</a></div>
+        </div>
+        <HeroDashboard />
+      </div>
+      <div className="scroll-cue" aria-hidden="true"><span>Scroll to follow the flow</span><i /></div>
+    </main>
   )
 }
 
-function ProductFrame({ activeModule }) {
-  const [activeStep, setActiveStep] = useState(3)
+function FlowCard({ step, index, active, onSelect }) {
+  const Icon = step.icon
   return (
-    <div className="product-frame" aria-label="Agent 71 connected transaction workflow"><AppSidebar compact /><div className="product-workspace">
-      <div className="workspace-topbar"><strong><Building2 />Acme Industries</strong><div><span><Search />Search…</span><Bell /><CircleHelp /><Settings2 /></div></div>
-      <ol className="workflow-line">{workflow.map(({name,ref,icon:Icon},index) => <li className={index < activeStep ? 'is-complete' : index === activeStep ? 'is-active' : ''} key={name}><button type="button" onClick={() => setActiveStep(index)} aria-label={`Show ${name} stage`}><Icon /></button><strong>{name}</strong><small>{ref}</small></li>)}</ol>
-      <div className="invoice-workspace"><section className="invoice-detail"><div className="invoice-detail-heading"><h3>INV-2026-0071</h3><button type="button">Record payment</button></div><dl className="invoice-summary"><div><dt>Customer</dt><dd>Acme Manufacturing Ltd.</dd></div><div><dt>Invoice date</dt><dd>Apr 24, 2026</dd></div><div><dt>Status</dt><dd><span>Unpaid</span></dd></div><div><dt>Total amount</dt><dd>12,450 MAD</dd></div></dl><nav className="invoice-tabs" aria-label="Invoice details"><button className="is-active" type="button">Summary</button><button type="button">Lines</button><button type="button">Payments</button><button type="button">Ledger impact</button></nav><div className="line-items"><div className="line-row line-row--head"><span>Item</span><span>Description</span><span>Qty</span><span>Amount</span></div><div className="line-row"><span>A71-1000</span><span>Operations platform</span><span>1</span><span>6,400</span></div><div className="line-row"><span>A71-2000</span><span>Team workspace</span><span>12</span><span>4,300</span></div><div className="line-row"><span>A71-3000</span><span>Implementation</span><span>1</span><span>1,750</span></div></div></section><aside className="activity-rail"><div className="panel-title"><strong>Activity</strong><button type="button">All events <ChevronDown /></button></div>{['Invoice created','Delivery completed','Order confirmed','Quote approved'].map((label,index) => <div className={index === 0 ? 'is-current' : ''} key={label}><i /><span><strong>{label}</strong><small>{index === 0 ? activeModule : 'Agent 71'}</small></span></div>)}</aside></div>
-    </div></div>
+    <article className={`flow-card flow-card--${index} ${active ? 'is-active' : ''}`}>
+      <button type="button" className="flow-card-trigger" aria-label={`Show ${step.name} details`} onClick={onSelect}><Icon /><span>{index < 3 ? 'Open' : 'Balanced'}</span></button>
+      <div className="flow-card-head"><div><small>0{index + 1}</small><h3>{step.label}</h3></div><span>{index === 0 ? 'Draft' : index === 1 ? 'Reserved' : index === 2 ? 'Ready' : 'Live'}</span></div>
+      {index === 0 ? <div className="order-content"><dl><div><dt>Customer</dt><dd>Atlas Retail</dd></div><div><dt>Date</dt><dd>28 Aug</dd></div><div><dt>Total</dt><dd>12,450 MAD</dd></div></dl><div className="tiny-table"><div><b>Agent 71 platform</b><span>9,000</span></div><div><b>Implementation</b><span>2,000</span></div><div><b>Support</b><span>1,450</span></div></div><button type="button" onClick={onSelect}>Confirm order <ArrowRight /></button></div> : null}
+      {index === 1 ? <div className="stock-content">{['Agent 71 platform','Implementation','Support'].map((item, itemIndex) => <div key={item}><span><Box /><b>{item}</b></span><small>{itemIndex + 1} / {itemIndex + 1}</small><i /></div>)}</div> : null}
+      {index === 2 ? <div className="invoice-content"><div className="invoice-brand"><Brand /><span>INV-071</span></div><div className="invoice-amount"><small>Amount due</small><strong>12,450 <em>MAD</em></strong></div><button type="button" onClick={onSelect}>Send invoice <Send /></button></div> : null}
+      {index === 3 ? <div className="ledger-content"><div className="ledger-balance"><CheckCircle2 /><span><small>Reconciliation</small><strong>Balanced</strong></span></div>{ledgerRows.map(([label,value]) => <div className="ledger-row" key={label}><span>{label}</span><b>{value}</b><Check /></div>)}</div> : null}
+      <div className="flow-card-foot"><span>{step.detail}</span><strong>{step.meta}</strong></div>
+    </article>
   )
 }
 
-function PlatformSection() {
-  const [activeModule, setActiveModule] = useState('Finance')
-  const active = moduleData.find(({name}) => name === activeModule)
+function FlowSection() {
+  const [active, setActive] = useState(0)
   return (
-    <section className="platform-section" id="platform"><div className="page-shell"><header className="platform-heading"><h2>Every team. One source of truth.</h2><p>Sales creates the order. Inventory reserves the stock. Finance records the result. Agent 71 keeps the handoffs invisible.</p></header><nav className="module-tabs" aria-label="Agent 71 modules">{moduleData.map(({name,icon:Icon}) => <button className={name === activeModule ? 'is-active' : ''} type="button" key={name} onClick={() => setActiveModule(name)}><Icon />{name}</button>)}</nav><ProductFrame activeModule={activeModule} /><div className="source-note"><span><Check /></span><strong>{active.note}</strong></div></div></section>
+    <section className="flow-section" id="platform">
+      <Reveal className="section-shell">
+        <div className="flow-heading"><h2>One action.<br />Every record.</h2><p>Sell once. Agent 71 handles the rest.</p></div>
+        <nav className="flow-nav" aria-label="Transaction flow">
+          {flowSteps.map((step, index) => { const Icon = step.icon; return <button className={index === active ? 'is-active' : index < active ? 'is-complete' : ''} type="button" key={step.name} onClick={() => setActive(index)}><small>0{index + 1}</small><span><Icon /></span><strong>{step.name}</strong></button> })}
+        </nav>
+        <div className="flow-stage" style={{'--active-step': active}}>
+          <div className="flow-beam" aria-hidden="true"><i /></div>
+          {flowSteps.map((step, index) => <FlowCard key={step.name} step={step} index={index} active={index === active} onSelect={() => setActive(index)} />)}
+        </div>
+      </Reveal>
+    </section>
+  )
+}
+
+function InvoiceVisual() {
+  const [sent, setSent] = useState(false)
+  return (
+    <div className={`invoice-visual ${sent ? 'is-sent' : ''}`}>
+      <svg className="orbit" viewBox="0 0 720 470" aria-hidden="true"><path d="M36 388C166 463 305 402 388 288S548 62 690 94" /><circle cx="36" cy="388" r="5" /><circle cx="388" cy="288" r="5" /><circle cx="690" cy="94" r="5" /></svg>
+      <article className="digital-invoice">
+        <div className="invoice-top"><Brand inverse /><span><strong>INVOICE</strong><small>INV-000125</small></span></div>
+        <div className="invoice-total"><small>Amount</small><strong>8,400 <em>MAD</em></strong></div>
+        <div className="invoice-lines"><i /><i /><i /><i /><i /></div>
+        <button type="button" onClick={() => setSent((value) => !value)}>{sent ? <CheckCircle2 /> : <Send />}<span><small>Status</small><strong>{sent ? 'Transmitted successfully' : 'Ready to transmit'}</strong></span></button>
+      </article>
+      <div className="transmission-node"><Check /></div>
+    </div>
   )
 }
 
 function ReadinessSection() {
   return (
-    <section className="readiness" id="solutions"><div className="page-shell readiness-grid"><div className="readiness-copy"><h2>Ready for Morocco’s next invoicing standard.</h2><p>Agent 71 is being designed to support Morocco’s 2026 e-invoicing rollout—from structured invoices to connected records and cleaner reporting.</p><ul><li><Check />Create structured invoices</li><li><Check />Keep every record connected</li><li><Check />Adapt as requirements evolve</li></ul></div><div className="readiness-visual"><article className="structured-invoice"><div className="structured-head"><Brand /><div><strong>INVOICE</strong><small>INV-2026-000125<br />Aug 28, 2026</small></div></div><div className="structured-address"><span><small>From</small><strong>Your Company SARL</strong><em>Casablanca, Morocco</em></span><span><small>Bill to</small><strong>Client Company</strong><em>Casablanca, Morocco</em></span></div><div className="structured-lines"><div><span>Operations platform</span><b>5,000.00</b></div><div><span>Software subscription</span><b>2,150.00</b></div><div><span>Implementation</span><b>1,250.00</b></div></div><div className="structured-total"><span>Total (MAD)</span><strong>8,400.00</strong></div></article><ol className="transmission-flow"><li><i><FileText /></i><strong>Created</strong></li><li><i><Link2 /></i><strong>Connected</strong></li><li><i><Send /></i><strong>Ready</strong></li></ol></div></div></section>
+    <section className="readiness" id="why-agent-71">
+      <Reveal className="section-shell readiness-shell">
+        <div className="readiness-copy"><h2>Ready for Morocco’s<br />e-invoicing shift.</h2><p>Structured. Connected. Adaptable.</p></div>
+        <InvoiceVisual />
+      </Reveal>
+    </section>
   )
 }
 
-function Plan({ title, subtitle, features, primary = false }) {
-  return <article className={`plan ${primary ? 'plan--primary' : ''}`}><div className="plan-heading"><span>{primary ? <Box /> : <Building2 />}</span><div><h3>{title}</h3><p>{subtitle}</p></div></div><ul>{features.map((feature) => <li key={feature}><Check />{feature}</li>)}</ul><a className={primary ? 'button button--primary' : 'button button--secondary'} href="#early-access">{primary ? 'Start free' : 'Talk to us'}</a></article>
+function PricingRail({ title, icon: Icon, copy, primary = false }) {
+  return <a className={`pricing-rail ${primary ? 'pricing-rail--primary' : ''}`} href="#early-access"><span><Icon /></span><div><strong>{title}</strong><small>{copy}</small></div><ArrowRight /></a>
 }
 
 function PricingSection() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
-  const submit = (event) => { event.preventDefault(); if (!event.currentTarget.checkValidity()) return; setSubmitted(true) }
+  const submit = (event) => { event.preventDefault(); setSubmitted(true) }
   return (
-    <section className="pricing-section" id="pricing"><div className="page-shell pricing-grid"><div className="pricing-copy" id="early-access"><h2>Start with the essentials. <span>Upgrade when you’re ready.</span></h2>{submitted ? <div className="form-success" role="status"><span><Check /></span><div><strong>You’re on the list.</strong><small>We’ll contact you at {email}.</small></div></div> : <form onSubmit={submit}><label className="sr-only" htmlFor="work-email">Work email</label><div><FileText /><input id="work-email" type="email" required placeholder="Work email" value={email} onChange={(event) => setEmail(event.target.value)} /></div><button type="submit">Join early access <ArrowRight /></button></form>}<p>Be the first to try Agent 71 and get updates on e-invoicing readiness.</p></div><div className="plans"><Plan title="Free" subtitle="For getting started" features={freeFeatures} primary /><Plan title="Scale" subtitle="For growing teams" features={scaleFeatures} /></div></div></section>
+    <section className="pricing" id="pricing">
+      <Reveal className="section-shell pricing-shell">
+        <div className="pricing-heading"><h2>Start free. <span>Scale without limits.</span></h2></div>
+        <div className="pricing-content" id="early-access">
+          {submitted ? <div className="signup-success" role="status"><CheckCircle2 /><span><strong>You’re in.</strong><small>Early-access updates will go to {email}.</small></span></div> : <form onSubmit={submit}><label className="sr-only" htmlFor="email">Work email</label><div><FileText /><input id="email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="Work email" /></div><button type="submit">Join early access <ArrowRight /></button></form>}
+          <div className="pricing-rails"><PricingRail title="Free" copy="The essentials for your first team" icon={Box} primary /><PricingRail title="Scale" copy="Advanced control for growing operations" icon={Layers3} /></div>
+        </div>
+      </Reveal>
+    </section>
   )
 }
 
 function Footer() {
-  return <footer className="site-footer" id="resources"><div className="page-shell footer-inner"><div><Brand /><span>Built by Hikari Tech</span></div><nav aria-label="Footer navigation"><a href="#platform">Platform</a><a href="#solutions">Solutions</a><a href="#pricing">Pricing</a><a href="#solutions">E-invoicing</a><a href="#resources">Privacy</a></nav></div></footer>
+  return <footer className="site-footer"><div className="section-shell"><Brand /><span>Built by Hikari Tech</span><nav aria-label="Footer navigation"><a href="#platform">Platform</a><a href="#why-agent-71">E-invoicing</a><a href="#pricing">Pricing</a></nav></div></footer>
 }
 
-export default function App() { return <><Hero /><PlatformSection /><ReadinessSection /><PricingSection /><Footer /></> }
+export default function App() { return <><Hero /><FlowSection /><ReadinessSection /><PricingSection /><Footer /></> }
