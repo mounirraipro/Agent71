@@ -1,239 +1,306 @@
 import { useEffect, useRef, useState } from 'react'
 import {
-  ArrowRight, BarChart3, Bell, Box, Building2, Check, CheckCircle2,
-  ChevronDown, FileText, Gauge, Layers3, Menu, PackageCheck,
-  Play, Search, Send, ShoppingCart, WalletCards, X,
+  ArrowRight, BarChart3, Boxes, Building2, Check, CheckCircle2,
+  ChevronDown, ChevronRight, CircleDollarSign, FileCheck2, FileText,
+  Gauge, Mail, Menu, PackageCheck, Play, Send, ShoppingBag,
+  SlidersHorizontal, Users, WalletCards, X,
 } from 'lucide-react'
 
-const flowSteps = [
-  { name: 'Sell', label: 'Sales order SO-071', icon: ShoppingCart, detail: 'Atlas Retail', meta: '12,450 MAD' },
-  { name: 'Reserve', label: 'Stock reserved', icon: Box, detail: '3 items allocated', meta: 'WH-CAS-01' },
-  { name: 'Invoice', label: 'Invoice ready', icon: FileText, detail: 'INV-071', meta: '12,450 MAD' },
-  { name: 'Reconcile', label: 'Ledger balanced', icon: Layers3, detail: 'All entries match', meta: '0.00 MAD' },
+const sidebarItems = [
+  [Gauge, 'Home'], [BarChart3, 'Dashboard'], [ShoppingBag, 'Sales'],
+  [PackageCheck, 'Purchases'], [Boxes, 'Inventory'], [FileText, 'Accounting'],
 ]
 
-const moduleItems = [
-  [Gauge, 'Overview'], [ShoppingCart, 'Sales'], [PackageCheck, 'Stock'],
-  [FileText, 'Finance'], [WalletCards, 'Banking'], [BarChart3, 'Reports'],
-]
+const barValues = [34, 52, 67, 58, 83, 61, 91]
 
-const ledgerRows = [
-  ['AR · Atlas Retail', '12,450.00'], ['Sales revenue', '9,000.00'],
-  ['Implementation', '2,000.00'], ['VAT output', '1,450.00'],
-]
-
-function Reveal({ as: Tag = 'div', className = '', children, ...props }) {
+function Reveal({ as: Tag = 'div', className = '', delay = 0, children, ...props }) {
   const ref = useRef(null)
+
   useEffect(() => {
     const node = ref.current
     if (!node) return undefined
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
-        node.classList.add('is-revealed')
+        node.classList.add('is-visible')
         observer.disconnect()
       }
     }, { threshold: 0.12 })
     observer.observe(node)
     return () => observer.disconnect()
   }, [])
-  return <Tag ref={ref} className={`reveal ${className}`} {...props}>{children}</Tag>
+
+  return <Tag ref={ref} className={`reveal ${className}`} style={{ '--delay': `${delay}ms` }} {...props}>{children}</Tag>
 }
 
-function Brand({ inverse = false }) {
-  return (
-    <a className={`brand ${inverse ? 'brand--inverse' : ''}`} href="#top" aria-label="Agent 71 home">
-      <span className="brand-mark"><i>7</i><i>1</i></span><strong>Agent 71</strong>
-    </a>
-  )
+function Brand() {
+  return <a className="brand" href="#top" aria-label="Agent 71 home">Agent 71</a>
 }
 
 function Header() {
   const [open, setOpen] = useState(false)
+  const close = () => setOpen(false)
+
   return (
     <header className="site-header">
       <div className="nav-shell">
-        <Brand inverse />
-        <button className="menu-button" type="button" aria-label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open} onClick={() => setOpen((value) => !value)}>{open ? <X /> : <Menu />}</button>
-        <nav className={`main-nav ${open ? 'main-nav--open' : ''}`} aria-label="Main navigation">
-          <a href="#platform" onClick={() => setOpen(false)}>Platform</a>
-          <a href="#why-agent-71" onClick={() => setOpen(false)}>Why Agent 71</a>
-          <a href="#pricing" onClick={() => setOpen(false)}>Pricing</a>
+        <Brand />
+        <button className="menu-toggle" type="button" aria-label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open} onClick={() => setOpen((value) => !value)}>
+          {open ? <X /> : <Menu />}
+        </button>
+        <nav className={`main-nav ${open ? 'is-open' : ''}`} aria-label="Main navigation">
+          <a href="#platform" onClick={close}>Platform</a>
+          <a href="#benefits" onClick={close}>Benefits</a>
+          <a href="#e-invoicing" onClick={close}>E-invoicing</a>
+          <a href="#pricing" onClick={close}>Pricing</a>
+          <a className="mobile-start" href="#start" onClick={close}>Start free</a>
         </nav>
-        <div className="nav-actions"><a href="#early-access">Sign in</a><a className="nav-cta" href="#early-access">Start free</a></div>
+        <a className="button button--compact desktop-start" href="#start">Start free</a>
       </div>
     </header>
   )
 }
 
-function MiniLineChart() {
+function LineChart() {
   return (
-    <svg className="mini-line" viewBox="0 0 300 104" preserveAspectRatio="none" aria-label="Sales trend chart">
-      <defs><linearGradient id="lineFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#4f5dff" stopOpacity=".45" /><stop offset="1" stopColor="#4f5dff" stopOpacity="0" /></linearGradient></defs>
-      <path className="chart-fill" d="M2 92C29 73 39 82 60 62s36-12 54-2 34 10 52-14 33-24 52-5 35 3 47-11 21-17 33-24V104H2Z" />
-      <path className="chart-stroke" d="M2 92C29 73 39 82 60 62s36-12 54-2 34 10 52-14 33-24 52-5 35 3 47-11 21-17 33-24" />
-      <circle cx="298" cy="6" r="4" />
+    <svg className="line-chart" viewBox="0 0 420 112" preserveAspectRatio="none" aria-label="Cashflow trend">
+      <path className="line-grid" d="M0 92H420M0 56H420M0 20H420" />
+      <path className="line-path" d="M2 92C32 86 42 54 71 68S111 85 137 51s48-25 72-8 53 10 75-9 39-24 65-9 45-6 69-22" />
+      <circle className="line-dot" cx="418" cy="3" r="5" />
     </svg>
   )
 }
 
-function AppNav() {
+function DashboardSidebar() {
   return (
-    <aside className="demo-nav">
-      <Brand inverse />
-      <nav aria-label="Agent 71 application navigation">
-        {moduleItems.map(([Icon, label], index) => <button className={index === 0 ? 'is-active' : ''} type="button" key={label}><Icon /><span>{label}</span></button>)}
+    <aside className="dash-sidebar">
+      <div className="dash-logo"><span>A</span><strong>Agent 71</strong></div>
+      <nav aria-label="Dashboard navigation">
+        {sidebarItems.map(([Icon, label], index) => (
+          <button className={index === 0 ? 'is-active' : ''} type="button" key={label}><Icon /><span>{label}</span></button>
+        ))}
       </nav>
-      <div className="company-switch"><Building2 /><span><strong>Acme Industries</strong><small>Casablanca</small></span><ChevronDown /></div>
+      <button className="company-switcher" type="button">
+        <Building2 /><span><strong>Hikari Tech</strong><small>Casablanca</small></span><ChevronDown />
+      </button>
     </aside>
   )
 }
 
 function HeroDashboard() {
-  const [approved, setApproved] = useState(false)
+  const [range, setRange] = useState('This month')
+
   return (
-    <div className="hero-system" aria-label="Interactive Agent 71 operations dashboard">
-      <div className="system-glow" />
-      <div className="dashboard-window">
-        <AppNav />
-        <div className="demo-main">
-          <div className="demo-top"><strong>Overview</strong><div><Search />Search anything…</div><Bell /></div>
-          <div className="demo-content">
-            <div className="demo-title"><div><small>Friday, 28 August</small><h2>Business pulse</h2></div><button type="button">This month <ChevronDown /></button></div>
-            <div className="metric-strip">
-              <article><small>Sales</small><strong>840K <em>MAD</em></strong><span>+18.2%</span><MiniLineChart /></article>
-              <article><small>Operations</small><div className="health-ring"><span>98%</span></div><span>On track</span></article>
-              <article><small>Cash position</small><strong>2.45M <em>MAD</em></strong><div className="mini-bars">{[42,62,49,78,71,94].map((height, index) => <i key={height} style={{'--bar': `${height}%`, '--delay': `${index * 90}ms`}} />)}</div></article>
-            </div>
-            <div className="transaction-panel">
-              <div className="panel-head"><strong>Recent transactions</strong><button type="button">View all <ArrowRight /></button></div>
-              {[['SO-1048','Atlas Retail','Order','84,500'],['PO-2215','Vertex Supplies','Purchase','118,000'],['INV-3347','Acme Industries','Invoice','245,000'],['PAY-8872','Hikari Bank','Payment','62,400']].map((row, index) => <div className="transaction-row" key={row[0]}><i className={`dot dot--${index}`} /><strong>{row[0]}</strong><span>{row[1]}</span><span>{row[2]}</span><b>{row[3]} MAD</b></div>)}
-            </div>
-          </div>
+    <div className="dashboard-frame" aria-label="Interactive Agent 71 dashboard preview">
+      <DashboardSidebar />
+      <div className="dash-main">
+        <div className="dash-topline">
+          <div><h2>Good morning, Sara</h2><p>Here’s what’s happening in your business today.</p></div>
+          <button type="button" onClick={() => setRange((value) => value === 'This month' ? 'This quarter' : 'This month')}>{range}<ChevronDown /></button>
         </div>
-      </div>
-      <div className={`approval-float ${approved ? 'is-approved' : ''}`} role="status">
-        <div className="approval-icon">{approved ? <Check /> : <FileText />}</div>
-        <div><small>{approved ? 'Approved' : 'Approval'}</small><strong>{approved ? 'Invoice released' : 'Invoice INV-3347'}</strong><span>245,000 MAD</span></div>
-        <button type="button" onClick={() => setApproved((value) => !value)}>{approved ? 'Undo' : 'Approve'}</button>
-      </div>
-      <ol className="hero-flow" aria-label="Order to ledger flow">
-        {[['Order',ShoppingCart],['Stock',Box],['Invoice',FileText],['Ledger',Layers3]].map(([label, Icon], index) => <li key={label}><div><Icon /></div><span><strong>{label}</strong><small>{index === 0 ? 'SO-1048' : index === 1 ? 'Reserved' : index === 2 ? 'INV-3347' : 'Recorded'}</small></span>{index < 3 ? <ArrowRight /> : null}</li>)}
-      </ol>
-      <div className="hero-insights" aria-label="Live business insights">
-        <article className="stock-insight"><div className="insight-head"><strong>Stock availability</strong><span>Live</span></div>{[['A-1001','1,250','930'],['B-2002','850','640'],['C-3003','620','530']].map((row) => <div className="stock-row" key={row[0]}><Box /><b>{row[0]}</b><span>{row[1]}</span><em>{row[2]}</em></div>)}</article>
-        <article className="trend-insight"><div className="insight-head"><strong>Sales trend</strong><span>+18.2%</span></div><MiniLineChart /></article>
-        <article className="cash-insight"><div className="insight-head"><strong>Cash flow</strong><span>Healthy</span></div><div className="cash-bars">{[39,61,49,75,63,88,70].map((height,index) => <i key={`${height}-${index}`} style={{'--cash': `${height}%`, '--delay': `${index * 80}ms`}} />)}</div></article>
+        <p className="overview-label">Today’s overview</p>
+        <div className="dashboard-grid dashboard-grid--top">
+          <article className="dash-panel cash-panel">
+            <div className="panel-heading"><span>Cashflow</span><small>MAD</small></div>
+            <strong className="metric">1,250,540.00 <small>MAD</small></strong>
+            <span className="metric-change">+12.5% vs yesterday</span>
+            <LineChart />
+            <div className="axis"><span>14 May</span><span>16 May</span><span>18 May</span><span>20 May</span></div>
+          </article>
+          <article className="dash-panel invoice-panel">
+            <div className="panel-heading"><span>Open invoices</span><small>MAD</small></div>
+            <strong className="metric">320,450.00 <small>MAD</small></strong>
+            <span className="muted-line">18 invoices</span>
+            <ul>
+              <li><i className="status-dot status-dot--red" />Overdue <b>120,450</b></li>
+              <li><i className="status-dot status-dot--orange" />Due this week <b>80,000</b></li>
+              <li><i className="status-dot status-dot--indigo" />Due later <b>120,000</b></li>
+            </ul>
+            <a href="#e-invoicing">View all invoices <ArrowRight /></a>
+          </article>
+          <article className="dash-panel sales-panel">
+            <div className="panel-heading"><span>Sales orders</span><small>MAD</small></div>
+            <strong className="metric">850,200.00 <small>MAD</small></strong>
+            <span className="metric-change">+8.3% vs yesterday</span>
+            <div className="sales-bars" aria-label="Sales order bar chart">{barValues.map((value, index) => <i key={index} style={{ height: `${value}%` }} />)}</div>
+            <div className="axis"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+          </article>
+        </div>
+        <div className="dashboard-grid dashboard-grid--bottom">
+          <article className="dash-panel inventory-panel">
+            <div className="panel-heading"><span>Inventory status</span><small>72%</small></div>
+            <strong className="metric">2,450,300.00 <small>MAD</small></strong>
+            <span className="muted-line">128 items across 6 categories</span>
+            <div className="stock-track"><i /></div>
+            <div className="stock-legend"><span><i />In stock</span><a href="#benefits">View inventory <ArrowRight /></a></div>
+          </article>
+          <article className="dash-panel products-panel">
+            <div className="panel-heading"><span>Top selling items</span><small>MAD</small></div>
+            <div className="product-row"><Boxes /><span>Wireless Headphones</span><small>320 units</small><b>96,000</b></div>
+            <div className="product-row"><Boxes /><span>Smart Watch</span><small>210 units</small><b>63,000</b></div>
+            <div className="product-row"><Boxes /><span>Backpack</span><small>180 units</small><b>36,000</b></div>
+          </article>
+        </div>
       </div>
     </div>
   )
 }
 
 function Hero() {
-  const moveLight = (event) => {
-    const rect = event.currentTarget.getBoundingClientRect()
-    event.currentTarget.style.setProperty('--pointer-x', `${event.clientX - rect.left}px`)
-    event.currentTarget.style.setProperty('--pointer-y', `${event.clientY - rect.top}px`)
-  }
   return (
-    <main className="hero" id="top" onPointerMove={moveLight}>
-      <Header />
-      <div className="hero-ambient" aria-hidden="true" />
-      <div className="hero-shell">
-        <div className="hero-copy">
-          <h1><span>Run the whole</span><span>business.</span><span>In one <em>flow.</em></span></h1>
-          <p>Finance, sales, stock and operations—finally moving as one.</p>
-          <div className="hero-actions"><a className="button button--solid" href="#early-access">Start free <ArrowRight /></a><a className="button button--outline" href="#platform"><Play /> See it in motion</a></div>
+    <section className="hero" id="top">
+      <div className="hero-copy">
+        <h1>Run your <em>business.</em><br />Not your spreadsheets.</h1>
+        <p>Finance, sales, inventory and accounting—together in one modern ERP.</p>
+        <div className="hero-actions">
+          <a className="button" href="#start">Start free</a>
+          <a className="button button--outline" href="#platform"><Play />See the product</a>
         </div>
-        <HeroDashboard />
       </div>
-      <div className="scroll-cue" aria-hidden="true"><span>Scroll to follow the flow</span><i /></div>
-    </main>
-  )
-}
-
-function FlowCard({ step, index, active, onSelect }) {
-  const Icon = step.icon
-  return (
-    <article className={`flow-card flow-card--${index} ${active ? 'is-active' : ''}`}>
-      <button type="button" className="flow-card-trigger" aria-label={`Show ${step.name} details`} onClick={onSelect}><Icon /><span>{index < 3 ? 'Open' : 'Balanced'}</span></button>
-      <div className="flow-card-head"><div><small>0{index + 1}</small><h3>{step.label}</h3></div><span>{index === 0 ? 'Draft' : index === 1 ? 'Reserved' : index === 2 ? 'Ready' : 'Live'}</span></div>
-      {index === 0 ? <div className="order-content"><dl><div><dt>Customer</dt><dd>Atlas Retail</dd></div><div><dt>Date</dt><dd>28 Aug</dd></div><div><dt>Total</dt><dd>12,450 MAD</dd></div></dl><div className="tiny-table"><div><b>Agent 71 platform</b><span>9,000</span></div><div><b>Implementation</b><span>2,000</span></div><div><b>Support</b><span>1,450</span></div></div><button type="button" onClick={onSelect}>Confirm order <ArrowRight /></button></div> : null}
-      {index === 1 ? <div className="stock-content">{['Agent 71 platform','Implementation','Support'].map((item, itemIndex) => <div key={item}><span><Box /><b>{item}</b></span><small>{itemIndex + 1} / {itemIndex + 1}</small><i /></div>)}</div> : null}
-      {index === 2 ? <div className="invoice-content"><div className="invoice-brand"><Brand /><span>INV-071</span></div><div className="invoice-amount"><small>Amount due</small><strong>12,450 <em>MAD</em></strong></div><button type="button" onClick={onSelect}>Send invoice <Send /></button></div> : null}
-      {index === 3 ? <div className="ledger-content"><div className="ledger-balance"><CheckCircle2 /><span><small>Reconciliation</small><strong>Balanced</strong></span></div>{ledgerRows.map(([label,value]) => <div className="ledger-row" key={label}><span>{label}</span><b>{value}</b><Check /></div>)}</div> : null}
-      <div className="flow-card-foot"><span>{step.detail}</span><strong>{step.meta}</strong></div>
-    </article>
-  )
-}
-
-function FlowSection() {
-  const [active, setActive] = useState(0)
-  return (
-    <section className="flow-section" id="platform">
-      <Reveal className="section-shell">
-        <div className="flow-heading"><h2>One action.<br />Every record.</h2><p>Sell once. Agent 71 handles the rest.</p></div>
-        <nav className="flow-nav" aria-label="Transaction flow">
-          {flowSteps.map((step, index) => { const Icon = step.icon; return <button className={index === active ? 'is-active' : index < active ? 'is-complete' : ''} type="button" key={step.name} onClick={() => setActive(index)}><small>0{index + 1}</small><span><Icon /></span><strong>{step.name}</strong></button> })}
-        </nav>
-        <div className="flow-stage" style={{'--active-step': active}}>
-          <div className="flow-beam" aria-hidden="true"><i /></div>
-          {flowSteps.map((step, index) => <FlowCard key={step.name} step={step} index={index} active={index === active} onSelect={() => setActive(index)} />)}
-        </div>
-      </Reveal>
+      <div className="hero-dashboard-wrap" id="platform"><HeroDashboard /></div>
     </section>
   )
 }
 
-function InvoiceVisual() {
-  const [sent, setSent] = useState(false)
+function VisibilityVisual() {
+  const bars = [24, 38, 49, 61, 73, 92]
   return (
-    <div className={`invoice-visual ${sent ? 'is-sent' : ''}`}>
-      <svg className="orbit" viewBox="0 0 720 470" aria-hidden="true"><path d="M36 388C166 463 305 402 388 288S548 62 690 94" /><circle cx="36" cy="388" r="5" /><circle cx="388" cy="288" r="5" /><circle cx="690" cy="94" r="5" /></svg>
-      <article className="digital-invoice">
-        <div className="invoice-top"><Brand inverse /><span><strong>INVOICE</strong><small>INV-000125</small></span></div>
-        <div className="invoice-total"><small>Amount</small><strong>8,400 <em>MAD</em></strong></div>
-        <div className="invoice-lines"><i /><i /><i /><i /><i /></div>
-        <button type="button" onClick={() => setSent((value) => !value)}>{sent ? <CheckCircle2 /> : <Send />}<span><small>Status</small><strong>{sent ? 'Transmitted successfully' : 'Ready to transmit'}</strong></span></button>
-      </article>
-      <div className="transmission-node"><Check /></div>
+    <div className="benefit-visual visibility-visual">
+      <div className="visual-title"><strong>Cash position</strong><span><b>MAD</b> 284k</span></div>
+      <div className="feature-chart"><div className="chart-rules"><i /><i /><i /></div><div className="feature-bars">{bars.map((bar, index) => <i key={index} style={{ height: `${bar}%` }} />)}</div></div>
+      <div className="mini-stats">
+        <span><BarChart3 /><small>Sales</small><b>MAD 1.2M</b></span>
+        <span><Boxes /><small>Stock value</small><b>MAD 690k</b></span>
+        <span><WalletCards /><small>Cash in</small><b>MAD 284k</b></span>
+      </div>
     </div>
   )
 }
 
-function ReadinessSection() {
+function WorkflowVisual() {
+  const [automated, setAutomated] = useState(false)
+  const steps = ['Create receipt', 'Create follow-up task', 'Update customer record', 'Update financials']
   return (
-    <section className="readiness" id="why-agent-71">
-      <Reveal className="section-shell readiness-shell">
-        <div className="readiness-copy"><h2>Ready for Morocco’s<br />e-invoicing shift.</h2><p>Structured. Connected. Adaptable.</p></div>
-        <InvoiceVisual />
-      </Reveal>
+    <div className={`benefit-visual workflow-visual ${automated ? 'is-automated' : ''}`}>
+      <div className="workflow-head"><strong>Agent 71 Automations</strong><button type="button" onClick={() => setAutomated(true)}>{automated ? <Check /> : null}{automated ? 'Automated' : 'Automate'}</button></div>
+      <label><b>When</b><span>an invoice is paid…</span></label>
+      <b className="then-label">Then</b>
+      <div className="automation-list">{steps.map((step) => <div key={step}><i /><span>{step}</span><small>{automated ? 'Done' : 'Ready'}</small><Check /></div>)}</div>
+    </div>
+  )
+}
+
+function DecisionsVisual() {
+  return (
+    <div className="benefit-visual decision-visual">
+      <div className="saved-time"><strong>8h<small> saved</small></strong><span>Across teams<br />this week</span></div>
+      <div className="decision-flow">
+        <div className="team-list"><span><Users />Sales</span><span><CircleDollarSign />Finance</span><span><Boxes />Inventory</span></div>
+        <div className="flow-lines" aria-hidden="true"><i /><i /><i /></div>
+        <div className="ready-state"><CheckCircle2 />Ready</div>
+      </div>
+    </div>
+  )
+}
+
+const benefitCards = [
+  { number: '01', title: 'Instant visibility', body: 'See cash, sales and stock as they change.', visual: <VisibilityVisual /> },
+  { number: '02', title: 'Connected workflows', body: 'Turn a sale into records, tasks and follow-through.', visual: <WorkflowVisual />, anchor: true },
+  { number: '03', title: 'Faster decisions', body: 'Give every team the context to act.', visual: <DecisionsVisual /> },
+]
+
+function Benefits() {
+  return (
+    <section className="benefits section-pad" id="benefits">
+      <Reveal className="section-heading section-heading--center"><h2>Built to move work forward.</h2><p>Less switching. Fewer gaps. A clearer view of every decision.</p></Reveal>
+      <div className="benefit-grid">
+        {benefitCards.map((card, index) => (
+          <Reveal as="article" className={`benefit-card ${card.anchor ? 'benefit-card--anchor' : ''}`} delay={index === 1 ? 0 : 120} key={card.title}>
+            <span className="card-index">{card.number}</span><h3>{card.title}</h3><p>{card.body}</p>{card.visual}
+          </Reveal>
+        ))}
+      </div>
     </section>
   )
 }
 
-function PricingRail({ title, icon: Icon, copy, primary = false }) {
-  return <a className={`pricing-rail ${primary ? 'pricing-rail--primary' : ''}`} href="#early-access"><span><Icon /></span><div><strong>{title}</strong><small>{copy}</small></div><ArrowRight /></a>
+function InvoiceDocument() {
+  const [sent, setSent] = useState(false)
+  return (
+    <div className="invoice-app" aria-label="Interactive electronic invoice preview">
+      <aside>
+        <div className="invoice-brand">Agent 71</div>
+        {['Dashboard', 'Sales', 'Invoices', 'Customers', 'Reports', 'Settings'].map((item) => <button className={item === 'Invoices' ? 'is-active' : ''} type="button" key={item}>{item}</button>)}
+      </aside>
+      <main>
+        <div className="breadcrumbs">Invoices <ChevronRight /> INV-2026-000237</div>
+        <div className="invoice-sheet">
+          <div className="invoice-sheet-head"><h3>Invoice</h3><span>INV-2026-000237</span></div>
+          <div className="invoice-parties"><p><b>Bill to</b>Atlas Trading SARL<br />Casablanca, Morocco<br />ICE: 001234567000012</p><p><b>Issue date</b>May 12, 2026<br /><b>Due date</b>May 26, 2026</p></div>
+          <table><thead><tr><th>Item</th><th>Qty.</th><th>Unit price</th><th>Amount</th></tr></thead><tbody><tr><td>Office chair</td><td>10</td><td>950.00</td><td>9,500.00</td></tr><tr><td>Work desk</td><td>5</td><td>1,850.00</td><td>9,250.00</td></tr><tr><td>Filing cabinet</td><td>3</td><td>1,200.00</td><td>3,600.00</td></tr></tbody></table>
+          <div className="invoice-total"><span>Subtotal <b>22,350.00</b></span><span>VAT (20%) <b>4,470.00</b></span><span>Total (MAD) <b>26,820.00</b></span></div>
+          <span className="structured-status"><i />Structured for e-invoicing</span>
+        </div>
+      </main>
+      <section className="einvoice-panel">
+        <h3>E-invoicing</h3>
+        <div className="ready-box"><span>Status</span><b>{sent ? 'Sent' : 'Ready'}</b><p>{sent ? 'Invoice sent and recorded.' : 'Prepared for Morocco’s electronic invoicing requirements.'}</p></div>
+        <dl><div><dt>Format</dt><dd>UBL 2.1</dd></div><div><dt>Language</dt><dd>ar-MA</dd></div><div><dt>Currency</dt><dd>MAD</dd></div></dl>
+        <button type="button" onClick={() => setSent(true)}>{sent ? <Check /> : <Send />}{sent ? 'Invoice sent' : 'Send invoice'}</button>
+      </section>
+    </div>
+  )
 }
 
-function PricingSection() {
-  const [email, setEmail] = useState('')
-  const [submitted, setSubmitted] = useState(false)
-  const submit = (event) => { event.preventDefault(); setSubmitted(true) }
+function EInvoicing() {
   return (
-    <section className="pricing" id="pricing">
-      <Reveal className="section-shell pricing-shell">
-        <div className="pricing-heading"><h2>Start free. <span>Scale without limits.</span></h2></div>
-        <div className="pricing-content" id="early-access">
-          {submitted ? <div className="signup-success" role="status"><CheckCircle2 /><span><strong>You’re in.</strong><small>Early-access updates will go to {email}.</small></span></div> : <form onSubmit={submit}><label className="sr-only" htmlFor="email">Work email</label><div><FileText /><input id="email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="Work email" /></div><button type="submit">Join early access <ArrowRight /></button></form>}
-          <div className="pricing-rails"><PricingRail title="Free" copy="The essentials for your first team" icon={Box} primary /><PricingRail title="Scale" copy="Advanced control for growing operations" icon={Layers3} /></div>
-        </div>
-      </Reveal>
+    <section className="einvoicing section-pad" id="e-invoicing">
+      <div className="einvoice-shell">
+        <Reveal className="einvoice-copy">
+          <h2>Ready for Morocco’s<br />e-invoicing shift.</h2>
+          <p>Create structured invoices, keep the right records, and connect compliance to the rest of your operation.</p>
+          <div className="einvoice-points"><span><FileCheck2 />Structured</span><span><Mail />Connected</span><span><SlidersHorizontal />Adaptable</span></div>
+        </Reveal>
+        <Reveal className="invoice-preview" delay={120}><InvoiceDocument /></Reveal>
+      </div>
+    </section>
+  )
+}
+
+function PricingCta() {
+  return (
+    <section className="pricing-cta" id="pricing">
+      <Reveal><h2>Start free. Scale when<br />you’re ready.</h2></Reveal>
+      <Reveal delay={70}><p>A modern ERP should be easy to adopt—<br />not another expensive commitment.</p></Reveal>
+      <Reveal className="pricing-actions" delay={140}><a className="button" href="#start">Start free</a><a className="button button--outline" href="mailto:hello@hikari.ma">Talk to us</a></Reveal>
     </section>
   )
 }
 
 function Footer() {
-  return <footer className="site-footer"><div className="section-shell"><Brand /><span>Built by Hikari Tech</span><nav aria-label="Footer navigation"><a href="#platform">Platform</a><a href="#why-agent-71">E-invoicing</a><a href="#pricing">Pricing</a></nav></div></footer>
+  const [email, setEmail] = useState('')
+  const [subscribed, setSubscribed] = useState(false)
+  const submit = (event) => {
+    event.preventDefault()
+    if (email.trim()) setSubscribed(true)
+  }
+
+  return (
+    <footer className="site-footer" id="start">
+      <div className="footer-note">Feeling ready?<span /></div>
+      <div className="footer-die" aria-hidden="true">71</div>
+      <div className="footer-panels">
+        <section className="footer-brand-panel"><Brand /><p>Your business, in one flow.</p><a href="mailto:hello@hikari.ma">hello@hikari.ma <ArrowRight /></a></section>
+        <section className="footer-links-panel">
+          <nav aria-label="Footer product navigation"><strong>Product</strong><a href="#platform">Platform</a><a href="#benefits">Benefits</a><a href="#e-invoicing">E-invoicing</a><a href="#pricing">Pricing</a></nav>
+          <nav aria-label="Footer company navigation"><strong>Company</strong><a href="https://hikari.ma">About Hikari Tech</a><a href="mailto:hello@hikari.ma">Contact</a><a href="#privacy">Privacy</a></nav>
+          <div className="newsletter"><strong>Get product updates</strong><form onSubmit={submit}><label className="sr-only" htmlFor="footer-email">Work email</label><input id="footer-email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@company.com" required /><button type="submit">{subscribed ? 'Subscribed' : 'Subscribe'}</button></form><small>{subscribed ? 'You’re on the list. Welcome.' : '© 2026 Hikari Tech'}</small></div>
+        </section>
+      </div>
+      <div className="footer-watermark" aria-hidden="true">Agent 71</div>
+    </footer>
+  )
 }
 
-export default function App() { return <><Hero /><FlowSection /><ReadinessSection /><PricingSection /><Footer /></> }
+export default function App() {
+  return <><Header /><main><Hero /><Benefits /><EInvoicing /><PricingCta /></main><Footer /></>
+}
