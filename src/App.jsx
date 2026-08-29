@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import {
-  ArrowRight, BarChart3, Boxes, Building2, Check, CheckCircle2,
-  ChevronDown, ChevronRight, CircleDollarSign, FileCheck2, FileText,
+  ArrowRight, BarChart3, Boxes, Building2, Check,
+  ChevronDown, ChevronRight, FileCheck2, FileText,
   Gauge, Mail, Menu, PackageCheck, Play, Send, ShoppingBag,
-  SlidersHorizontal, Users, WalletCards, X,
+  SlidersHorizontal, X,
 } from 'lucide-react'
+import BenefitTriptych from './BenefitTriptych'
+import ProductFooter from './ProductFooter'
 
 const sidebarItems = [
   [Gauge, 'Home'], [BarChart3, 'Dashboard'], [ShoppingBag, 'Sales'],
@@ -51,10 +53,10 @@ function Header() {
           <a href="#platform" onClick={close}>Platform</a>
           <a href="#benefits" onClick={close}>Benefits</a>
           <a href="#e-invoicing" onClick={close}>E-invoicing</a>
-          <a href="#pricing" onClick={close}>Pricing</a>
-          <a className="mobile-start" href="#start" onClick={close}>Start free</a>
+          <a href="/start.html#modules" onClick={close}>Modules</a>
+          <a className="mobile-start" href="/start.html" onClick={close}>Start free</a>
         </nav>
-        <a className="button button--compact desktop-start" href="#start">Start free</a>
+        <a className="button button--compact desktop-start" href="/start.html">Start free</a>
       </div>
     </header>
   )
@@ -152,7 +154,7 @@ function Hero() {
         <h1>Run your <em>business.</em><br />Not your spreadsheets.</h1>
         <p>Finance, sales, inventory and accounting—together in one modern ERP.</p>
         <div className="hero-actions">
-          <a className="button" href="#start">Start free</a>
+          <a className="button" href="/start.html">Start free</a>
           <a className="button button--outline" href="#platform"><Play />See the product</a>
         </div>
       </div>
@@ -161,66 +163,8 @@ function Hero() {
   )
 }
 
-function VisibilityVisual() {
-  const bars = [24, 38, 49, 61, 73, 92]
-  return (
-    <div className="benefit-visual visibility-visual">
-      <div className="visual-title"><strong>Cash position</strong><span><b>MAD</b> 284k</span></div>
-      <div className="feature-chart"><div className="chart-rules"><i /><i /><i /></div><div className="feature-bars">{bars.map((bar, index) => <i key={index} style={{ height: `${bar}%` }} />)}</div></div>
-      <div className="mini-stats">
-        <span><BarChart3 /><small>Sales</small><b>MAD 1.2M</b></span>
-        <span><Boxes /><small>Stock value</small><b>MAD 690k</b></span>
-        <span><WalletCards /><small>Cash in</small><b>MAD 284k</b></span>
-      </div>
-    </div>
-  )
-}
-
-function WorkflowVisual() {
-  const [automated, setAutomated] = useState(false)
-  const steps = ['Create receipt', 'Create follow-up task', 'Update customer record', 'Update financials']
-  return (
-    <div className={`benefit-visual workflow-visual ${automated ? 'is-automated' : ''}`}>
-      <div className="workflow-head"><strong>Agent 71 Automations</strong><button type="button" onClick={() => setAutomated(true)}>{automated ? <Check /> : null}{automated ? 'Automated' : 'Automate'}</button></div>
-      <label><b>When</b><span>an invoice is paid…</span></label>
-      <b className="then-label">Then</b>
-      <div className="automation-list">{steps.map((step) => <div key={step}><i /><span>{step}</span><small>{automated ? 'Done' : 'Ready'}</small><Check /></div>)}</div>
-    </div>
-  )
-}
-
-function DecisionsVisual() {
-  return (
-    <div className="benefit-visual decision-visual">
-      <div className="saved-time"><strong>8h<small> saved</small></strong><span>Across teams<br />this week</span></div>
-      <div className="decision-flow">
-        <div className="team-list"><span><Users />Sales</span><span><CircleDollarSign />Finance</span><span><Boxes />Inventory</span></div>
-        <div className="flow-lines" aria-hidden="true"><i /><i /><i /></div>
-        <div className="ready-state"><CheckCircle2 />Ready</div>
-      </div>
-    </div>
-  )
-}
-
-const benefitCards = [
-  { number: '01', title: 'Instant visibility', body: 'See cash, sales and stock as they change.', visual: <VisibilityVisual /> },
-  { number: '02', title: 'Connected workflows', body: 'Turn a sale into records, tasks and follow-through.', visual: <WorkflowVisual />, anchor: true },
-  { number: '03', title: 'Faster decisions', body: 'Give every team the context to act.', visual: <DecisionsVisual /> },
-]
-
 function Benefits() {
-  return (
-    <section className="benefits section-pad" id="benefits">
-      <Reveal className="section-heading section-heading--center"><h2>Built to move work forward.</h2><p>Less switching. Fewer gaps. A clearer view of every decision.</p></Reveal>
-      <div className="benefit-grid">
-        {benefitCards.map((card, index) => (
-          <Reveal as="article" className={`benefit-card ${card.anchor ? 'benefit-card--anchor' : ''}`} delay={index === 1 ? 0 : 120} key={card.title}>
-            <span className="card-index">{card.number}</span><h3>{card.title}</h3><p>{card.body}</p>{card.visual}
-          </Reveal>
-        ))}
-      </div>
-    </section>
-  )
+  return <BenefitTriptych />
 }
 
 function InvoiceDocument() {
@@ -266,41 +210,6 @@ function EInvoicing() {
   )
 }
 
-function PricingCta() {
-  return (
-    <section className="pricing-cta" id="pricing">
-      <Reveal><h2>Start free. Scale when<br />you’re ready.</h2></Reveal>
-      <Reveal delay={70}><p>A modern ERP should be easy to adopt—<br />not another expensive commitment.</p></Reveal>
-      <Reveal className="pricing-actions" delay={140}><a className="button" href="#start">Start free</a><a className="button button--outline" href="mailto:hello@hikari.ma">Talk to us</a></Reveal>
-    </section>
-  )
-}
-
-function Footer() {
-  const [email, setEmail] = useState('')
-  const [subscribed, setSubscribed] = useState(false)
-  const submit = (event) => {
-    event.preventDefault()
-    if (email.trim()) setSubscribed(true)
-  }
-
-  return (
-    <footer className="site-footer" id="start">
-      <div className="footer-note">Feeling ready?<span /></div>
-      <div className="footer-die" aria-hidden="true">71</div>
-      <div className="footer-panels">
-        <section className="footer-brand-panel"><Brand /><p>Your business, in one flow.</p><a href="mailto:hello@hikari.ma">hello@hikari.ma <ArrowRight /></a></section>
-        <section className="footer-links-panel">
-          <nav aria-label="Footer product navigation"><strong>Product</strong><a href="#platform">Platform</a><a href="#benefits">Benefits</a><a href="#e-invoicing">E-invoicing</a><a href="#pricing">Pricing</a></nav>
-          <nav aria-label="Footer company navigation"><strong>Company</strong><a href="https://hikari.ma">About Hikari Tech</a><a href="mailto:hello@hikari.ma">Contact</a><a href="#privacy">Privacy</a></nav>
-          <div className="newsletter"><strong>Get product updates</strong><form onSubmit={submit}><label className="sr-only" htmlFor="footer-email">Work email</label><input id="footer-email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@company.com" required /><button type="submit">{subscribed ? 'Subscribed' : 'Subscribe'}</button></form><small>{subscribed ? 'You’re on the list. Welcome.' : '© 2026 Hikari Tech'}</small></div>
-        </section>
-      </div>
-      <div className="footer-watermark" aria-hidden="true">Agent 71</div>
-    </footer>
-  )
-}
-
 export default function App() {
-  return <><Header /><main><Hero /><Benefits /><EInvoicing /><PricingCta /></main><Footer /></>
+  return <><Header /><main><Hero /><Benefits /><EInvoicing /></main><ProductFooter /></>
 }
