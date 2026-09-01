@@ -1,6 +1,6 @@
 .agent71-lockup { display: inline-flex; align-items: center; gap: 10px; color: inherit; line-height: 1; white-space: nowrap; }
 .agent71-mark { width: 36px; height: 36px; flex: 0 0 auto; display: block; }
-.agent71-lockup > span { font-family: 'Inter Variable', Inter, sans-serif; font-size: 20px; font-weight: 730; letter-spacing: -.045em; }
+.agent71-lockup > span { font-family: 'Manrope Variable', Manrope, sans-serif; font-size: 20px; font-weight: 760; letter-spacing: -.045em; }
 .brand .agent71-lockup > span { font-size: 20px; }
 .dash-logo .agent71-mark { width: 27px; height: 27px; }
 .dash-logo .agent71-lockup > span { font-size: 13px; }

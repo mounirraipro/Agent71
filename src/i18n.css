@@ -19,7 +19,7 @@
   border-radius: 999px;
   background: transparent;
   color: #777781;
-  font: 700 11px/1 'Inter Variable', Inter, sans-serif;
+  font: 720 11px/1 'Manrope Variable', Manrope, sans-serif;
   letter-spacing: .02em;
   cursor: pointer;
   transition: background 160ms ease, color 160ms ease, box-shadow 160ms ease;
@@ -29,11 +29,26 @@
 .language-switcher button[aria-pressed='true'] { background: #24242a; color: #fff; box-shadow: 0 2px 7px rgba(0,0,0,.16); }
 .nav-actions, .start-header-actions { display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
 
-html[lang='ar'] body { font-family: Tahoma, Arial, sans-serif; }
+html[lang='ar'] body,
+html[lang='ar'] button,
+html[lang='ar'] input { font-family: 'Noto Sans Arabic Variable', Tahoma, Arial, sans-serif; letter-spacing: 0; }
 html[lang='ar'] h1,
 html[lang='ar'] h2,
 html[lang='ar'] h3,
-html[lang='ar'] .start-wordmark { font-family: 'Traditional Arabic', Tahoma, Arial, sans-serif; letter-spacing: 0; }
+html[lang='ar'] h4,
+html[lang='ar'] .metric,
+html[lang='ar'] .console-core strong,
+html[lang='ar'] .reference-footer-nav-cols strong,
+html[lang='ar'] .reference-contact-mail,
+html[lang='ar'] .reference-lucky-row { font-family: 'Noto Kufi Arabic Variable', Tahoma, Arial, sans-serif; font-style: normal; letter-spacing: 0; }
+html[lang='ar'] h1,
+html[lang='ar'] h2 { font-weight: 540; line-height: 1.18; }
+html[lang='ar'] h3,
+html[lang='ar'] h4 { font-weight: 610; line-height: 1.35; }
+html[lang='ar'] .agent71-lockup > span,
+html[lang='ar'] .start-wordmark { font-family: 'Manrope Variable', Manrope, sans-serif; letter-spacing: -.045em; }
+html[lang='ar'] p,
+html[lang='ar'] li { line-height: 1.85; }
 html[dir='rtl'] .start-back svg { transform: rotate(180deg); }
 html[dir='rtl'] .button svg,
 html[dir='rtl'] .start-primary svg,

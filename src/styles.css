@@ -1,5 +1,5 @@
 :root {
-  font-family: 'Inter Variable', Inter, Arial, sans-serif;
+  font-family: 'Manrope Variable', Manrope, Arial, sans-serif;
   color: #28282b;
   background: #fff;
   font-synthesis: none;
@@ -229,7 +229,7 @@ svg { display: block; }
 .footer-panels { position: relative; z-index: 2; display: grid; grid-template-columns: .87fr 1.13fr; gap: 24px; }
 .footer-panels > section { min-height: 282px; border: 1px solid #dadce3; border-radius: 28px; }
 .footer-brand-panel { padding: 48px; background: var(--indigo-soft); }
-.footer-brand-panel .brand { color: var(--indigo); font-family: 'Inter Variable', sans-serif; font-size: 42px; font-weight: 650; letter-spacing: -0.045em; }
+.footer-brand-panel .brand { color: var(--indigo); font-family: 'Manrope Variable', sans-serif; font-size: 42px; font-weight: 700; letter-spacing: -0.045em; }
 .footer-brand-panel p { margin: 17px 0 75px; color: #60667c; }
 .footer-brand-panel > a { width: max-content; display: flex; align-items: center; gap: 8px; color: var(--indigo); font-size: 13px; font-weight: 650; }
 .footer-brand-panel > a svg { width: 15px; }
@@ -243,10 +243,10 @@ svg { display: block; }
 .newsletter input { min-width: 0; height: 43px; padding: 0 13px; border: 1px solid #d6d8df; border-right: 0; border-radius: 8px 0 0 8px; background: #fff; color: var(--ink); font-size: 11px; }
 .newsletter button { height: 43px; padding: 0 16px; border: 1px solid var(--indigo); border-radius: 0 8px 8px 0; background: var(--indigo); color: #fff; font-size: 10px; font-weight: 650; cursor: pointer; }
 .newsletter small { margin-top: auto; color: #767b89; font-size: 11px; }
-.footer-note { position: absolute; z-index: 5; top: 0; left: 40.5%; color: var(--indigo); font-family: 'Caveat Variable', cursive; font-size: 23px; transform: rotate(-5deg); }
+.footer-note { position: absolute; z-index: 5; top: 0; left: 40.5%; color: var(--indigo); font-family: 'Instrument Serif', Georgia, serif; font-size: 23px; font-style: italic; transform: rotate(-5deg); }
 .footer-note span { width: 45px; height: 22px; display: block; margin: -2px 0 0 85px; border-bottom: 2px solid var(--indigo); border-radius: 0 0 50% 50%; transform: rotate(28deg); }
 .footer-die { width: 64px; height: 64px; position: absolute; z-index: 4; top: 18px; left: calc(43.5% + 28px); display: grid; place-items: center; border: 6px solid #7473ed; border-radius: 8px; background: var(--indigo); color: #fff; font-family: 'Instrument Serif', serif; font-size: 30px; transform: rotate(14deg); box-shadow: 0 9px 18px rgba(87, 85, 231, .22); }
-.footer-watermark { position: absolute; z-index: 0; left: 50%; bottom: -82px; transform: translateX(-50%); color: #eff0ff; font-family: 'Inter Variable', sans-serif; font-size: clamp(120px, 18vw, 280px); font-weight: 700; line-height: .75; letter-spacing: -0.07em; white-space: nowrap; user-select: none; }
+.footer-watermark { position: absolute; z-index: 0; left: 50%; bottom: -82px; transform: translateX(-50%); color: #eff0ff; font-family: 'Manrope Variable', sans-serif; font-size: clamp(120px, 18vw, 280px); font-weight: 750; line-height: .75; letter-spacing: -0.07em; white-space: nowrap; user-select: none; }
 
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity 650ms ease var(--delay), transform 650ms cubic-bezier(.2,.8,.2,1) var(--delay); }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
