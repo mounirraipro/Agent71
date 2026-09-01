@@ -1,0 +1,12 @@
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import '@fontsource/instrument-serif/400.css'
+import '@fontsource/instrument-serif/400-italic.css'
+import '@fontsource-variable/inter'
+import LegalPage from './LegalPage'
+import './start.css'
+import './info-pages.css'
+import './banknote-art.css'
+
+const type = window.location.pathname.includes('privacy') ? 'privacy' : 'terms'
+createRoot(document.getElementById('root')).render(<StrictMode><LegalPage type={type} /></StrictMode>)
