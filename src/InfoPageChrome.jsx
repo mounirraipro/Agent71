@@ -11,5 +11,5 @@ export function DevelopmentCTA() {
 }
 
 export function InfoFooter() {
-  return <footer className="start-footer info-footer"><a href="/" aria-label="Agent 71 home"><BrandLockup /></a><nav><a href="/einvoicing.html">E-invoicing</a></nav><span>Built by <a className="start-hikari-link" href="https://hikaritech.ma" target="_blank" rel="noreferrer">HikariTech</a> · Casablanca · 2026</span></footer>
+  return <footer className="start-footer info-footer"><a href="/" aria-label="Agent 71 home"><BrandLockup /></a><nav><a href="/einvoicing.html">E-invoicing</a><a href="/terms.html">Terms</a><a href="/privacy.html">Privacy</a></nav><span>Built by <a className="start-hikari-link" href="https://hikaritech.ma" target="_blank" rel="noreferrer">HikariTech</a> · Casablanca · 2026</span></footer>
 }

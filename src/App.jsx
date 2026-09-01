@@ -54,7 +54,7 @@ function Header() {
         <nav className={`main-nav ${open ? 'is-open' : ''}`} aria-label="Main navigation">
           <a href="#platform" onClick={close}>Platform</a>
           <a href="#benefits" onClick={close}>Benefits</a>
-          <a href="#e-invoicing" onClick={close}>E-invoicing</a>
+          <a href="/einvoicing.html" onClick={close}>E-invoicing</a>
           <a href="/start.html#modules" onClick={close}>Modules</a>
           <a className="mobile-start" href="/start.html" onClick={close}>Start free</a>
         </nav>

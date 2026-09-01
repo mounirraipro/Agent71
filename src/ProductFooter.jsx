@@ -52,8 +52,8 @@ export default function ProductFooter() {
         <div className="reference-footer-right">
           <div className="reference-lucky-graphic"><div className="reference-lucky-cube"><span>71</span></div><div className="reference-lucky-row"><svg viewBox="0 0 24 24"><path d="M3 20 C 6 14, 10 9, 18 5" /><path d="M18 5 L 12 5" /><path d="M18 5 L 18 11" /></svg><span>Feeling ready?</span></div></div>
           <div className="reference-footer-nav-cols">
-            <nav><strong>Navigation</strong><a href="#platform">How it works</a><a href="#benefits">Features</a><a href="#e-invoicing">E-invoicing</a><a href="/start.html">Product scope</a></nav>
-            <nav><strong>Company</strong><a href="https://hikaritech.ma" target="_blank" rel="noreferrer">About HikariTech</a><a href="mailto:contact@hikaritech.ma">Contact</a><a href="#terms">Terms and Conditions</a><a href="#privacy">Privacy Policy</a></nav>
+            <nav><strong>Navigation</strong><a href="#platform">How it works</a><a href="#benefits">Features</a><a href="/einvoicing.html">E-invoicing</a><a href="/start.html">Product scope</a></nav>
+            <nav><strong>Company</strong><a href="https://hikaritech.ma" target="_blank" rel="noreferrer">About HikariTech</a><a href="mailto:contact@hikaritech.ma">Contact</a><a href="/terms.html">Terms and Conditions</a><a href="/privacy.html">Privacy Policy</a></nav>
           </div>
           <div className="reference-footer-bottom">
             <span>© 2026 <a className="reference-hikari-link" href="https://hikaritech.ma" target="_blank" rel="noreferrer">HikariTech</a>. All rights reserved.</span>
