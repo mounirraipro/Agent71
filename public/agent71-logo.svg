@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242 64" role="img" aria-labelledby="title desc">
+  <title id="title">Agent 71</title>
+  <desc id="desc">Agent 71 wordmark with its flowing four-colour symbol.</desc>
+  <rect x="1" y="1" width="62" height="62" rx="17" fill="#fff" stroke="#202126" stroke-width="2"/>
+  <path d="M8 42c10-13 20-18 31-16 6 1 11 4 17 9" fill="none" stroke="#6f3fc6" stroke-width="3" stroke-linecap="round"/>
+  <path d="M8 47c11-12 21-16 31-14 6 1 11 3 17 7" fill="none" stroke="#31946a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M10 52c10-9 20-12 29-11 7 1 12 2 17 5" fill="none" stroke="#a85e38" stroke-width="3" stroke-linecap="round"/>
+  <path d="M13 56c9-6 18-8 26-8 7 0 12 1 16 3" fill="none" stroke="#2775c9" stroke-width="3" stroke-linecap="round"/>
+  <path d="M15 15h22L26 43M41 23l7-7v27" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M15 15h22L26 43M41 23l7-7v27" fill="none" stroke="#202126" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="81" y="42" fill="#202126" font-family="Inter, Arial, sans-serif" font-size="31" font-weight="700" letter-spacing="-1.5">Agent 71</text>
+</svg>

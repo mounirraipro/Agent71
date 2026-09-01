@@ -7,6 +7,8 @@ import {
 } from 'lucide-react'
 import BenefitTriptych from './BenefitTriptych'
 import ProductFooter from './ProductFooter'
+import BanknoteArt from './BanknoteArt'
+import { BrandLockup, LogoMark } from './BrandLogo'
 
 const sidebarItems = [
   [Gauge, 'Home'], [BarChart3, 'Dashboard'], [ShoppingBag, 'Sales'],
@@ -35,7 +37,7 @@ function Reveal({ as: Tag = 'div', className = '', delay = 0, children, ...props
 }
 
 function Brand() {
-  return <a className="brand" href="#top" aria-label="Agent 71 home">Agent 71</a>
+  return <a className="brand" href="#top" aria-label="Agent 71 home"><BrandLockup /></a>
 }
 
 function Header() {
@@ -75,7 +77,7 @@ function LineChart() {
 function DashboardSidebar() {
   return (
     <aside className="dash-sidebar">
-      <div className="dash-logo"><span>A</span><strong>Agent 71</strong></div>
+      <div className="dash-logo"><LogoMark /><strong>Agent 71</strong></div>
       <nav aria-label="Dashboard navigation">
         {sidebarItems.map(([Icon, label], index) => (
           <button className={index === 0 ? 'is-active' : ''} type="button" key={label}><Icon /><span>{label}</span></button>
@@ -150,6 +152,7 @@ function HeroDashboard() {
 function Hero() {
   return (
     <section className="hero" id="top">
+      <BanknoteArt variant="city" className="currency-art--hero" />
       <div className="hero-copy">
         <h1>Run your <em>business.</em><br />Not your spreadsheets.</h1>
         <p>Finance, sales, inventory and accounting—together in one modern ERP.</p>
@@ -198,6 +201,7 @@ function InvoiceDocument() {
 function EInvoicing() {
   return (
     <section className="einvoicing section-pad" id="e-invoicing">
+      <BanknoteArt variant="sahara" className="currency-art--einvoicing" />
       <div className="einvoice-shell">
         <Reveal className="einvoice-copy">
           <h2>Ready for Morocco’s<br />e-invoicing shift.</h2>

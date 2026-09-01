@@ -7,6 +7,7 @@ import '@fontsource-variable/caveat'
 import App from './App'
 import './styles.css'
 import './reference-sections.css'
+import './banknote-art.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

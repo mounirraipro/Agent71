@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
+import BanknoteArt from './BanknoteArt'
+import { BrandLockup } from './BrandLogo'
 
 const socials = [
   ['Discord', 'M19.5 5.3A16.3 16.3 0 0 0 15.4 4l-.5 1a15 15 0 0 0-5.8 0l-.5-1a16.6 16.6 0 0 0-4.1 1.3C1.9 9.1 1.2 12.8 1.6 16.4a16.7 16.7 0 0 0 5 2.5l1.2-1.6-1.8-.9.4-.3c3.5 1.6 7.4 1.6 10.9 0l.4.3-1.8.9 1.2 1.6a16.7 16.7 0 0 0 5-2.5c.5-4.2-.8-7.9-2.6-11.1ZM8.2 14.2c-1 0-1.9-.9-1.9-2s.8-2 1.9-2 1.9.9 1.9 2-.9 2-1.9 2Zm7.6 0c-1 0-1.9-.9-1.9-2s.8-2 1.9-2 1.9.9 1.9 2-.8 2-1.9 2Z'],
@@ -34,12 +36,13 @@ export default function ProductFooter() {
 
   return (
     <section className="footer-section" id="contact">
+      <BanknoteArt variant="sea" className="currency-art--footer" />
       <div className="reference-footer-wrapper">
         <div className="reference-footer-left">
           <video className="reference-footer-video" autoPlay muted loop playsInline preload="metadata">
             <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260503_104800_bc43ae09-f494-43e3-97d7-2f8c1692cfd7.mp4" type="video/mp4" />
           </video>
-          <a className="reference-footer-logo" href="#top"><span>71</span><strong>Agent 71</strong></a>
+          <a className="reference-footer-logo" href="#top"><BrandLockup /></a>
           <div className="reference-footer-tagline">Every part of your business,<br /><span>moving in one flow.</span></div>
           <div className="reference-footer-social-row">
             <a className="reference-contact-mail" href="mailto:contact@hikaritech.ma">contact@hikaritech.ma</a>

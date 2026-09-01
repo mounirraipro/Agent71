@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import BanknoteArt from './BanknoteArt'
 
 const heights = [20, 33, 48, 56, 51, 47, 39, 31, 53, 55, 60, 56, 100, 92, 76, 67, 62, 65, 59, 70, 74, 87, 83, 77]
 
@@ -207,6 +208,7 @@ export default function BenefitTriptych() {
 
   return (
     <section className="reference-benefits" id="benefits" ref={rootRef} aria-label="Product benefits">
+      <BanknoteArt variant="rural" className="currency-art--benefits" />
       <div className="reference-scene"><div className="reference-cards"><VisibilityCard /><WorkflowCard /><DecisionsCard /></div></div>
     </section>
   )

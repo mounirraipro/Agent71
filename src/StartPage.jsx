@@ -3,6 +3,8 @@ import {
   Factory, FileText, Landmark, Layers3, Network, ScanLine, ShoppingCart,
   Users, WalletCards,
 } from 'lucide-react'
+import BanknoteArt from './BanknoteArt'
+import { BrandLockup, LogoMark } from './BrandLogo'
 
 const modules = [
   {
@@ -83,10 +85,12 @@ const localCapabilities = [
   [Building2, 'Built for every stage', 'Start with the modules you need, then add teams, branches, and deeper operational capabilities as the business grows.'],
 ]
 
-function ModuleCard({ module }) {
+const modulePalettes = ['purple', 'green', 'brown', 'blue']
+
+function ModuleCard({ module, index }) {
   const Icon = module.icon
   return (
-    <article className="scope-card">
+    <article className={`scope-card scope-card--${modulePalettes[index % modulePalettes.length]}`}>
       <header><span><Icon /></span><small>{module.phase}</small></header>
       <h3>{module.title}</h3>
       <p>{module.summary}</p>
@@ -100,18 +104,19 @@ export default function StartPage() {
     <div className="start-page">
       <header className="start-header">
         <a className="start-back" href="/"><ArrowLeft />Back to Agent 71</a>
-        <a className="start-wordmark" href="/">Agent 71</a>
+        <a className="start-wordmark" href="/" aria-label="Agent 71 home"><BrandLockup /></a>
         <a className="start-contact-link" href="mailto:contact@hikaritech.ma">Contact us</a>
       </header>
       <main>
         <section className="start-hero">
+          <BanknoteArt variant="city" className="currency-art--start-hero" />
           <div className="start-hero-copy">
             <h1>One system for every<br /><em>moving part.</em></h1>
             <p>Agent 71 is being built as a modular ERP for businesses that have outgrown spreadsheets—and do not want the cost or complexity of legacy software.</p>
             <div><a className="start-primary" href="#modules">Explore the product scope <ArrowRight /></a><a className="start-secondary" href="mailto:contact@hikaritech.ma">contact@hikaritech.ma</a></div>
           </div>
           <div className="start-hero-map" aria-label="Connected Agent 71 modules">
-            <div className="map-core">71</div>
+            <div className="map-core"><LogoMark /></div>
             <span className="map-node map-node--sales"><FileText />Sales</span>
             <span className="map-node map-node--finance"><Landmark />Finance</span>
             <span className="map-node map-node--stock"><Boxes />Stock</span>
@@ -121,22 +126,25 @@ export default function StartPage() {
         </section>
 
         <section className="scope-section" id="modules">
+          <BanknoteArt variant="rural" className="currency-art--scope" />
           <div className="scope-heading"><div><h2>The product scope.</h2><p>A connected set of modules, designed to work as one system.</p></div><aside>This is a representative roadmap, not an exhaustive feature list. Module availability and release timing will be announced as Agent 71 develops.</aside></div>
-          <div className="scope-grid">{modules.map((module) => <ModuleCard module={module} key={module.title} />)}</div>
+          <div className="scope-grid">{modules.map((module, index) => <ModuleCard module={module} index={index} key={module.title} />)}</div>
         </section>
 
         <section className="local-section">
+          <BanknoteArt variant="sahara" className="currency-art--local" />
           <div className="local-heading"><h2>Global ERP thinking.<br /><em>Built for Morocco.</em></h2><p>Agent 71 pairs broad operational capability with the localization Moroccan businesses actually need.</p></div>
           <div className="local-list">{localCapabilities.map(([Icon, title, description], index) => <article key={title}><span>{String(index + 1).padStart(2, '0')}</span><Icon /><div><h3>{title}</h3><p>{description}</p></div></article>)}</div>
         </section>
 
         <section className="start-final">
+          <BanknoteArt variant="sea" className="currency-art--start-final" />
           <p>Agent 71 is in development.</p>
           <h2>Tell us what your<br />business needs.</h2>
           <a href="mailto:contact@hikaritech.ma">contact@hikaritech.ma <ArrowRight /></a>
         </section>
       </main>
-      <footer className="start-footer"><a href="/">Agent 71</a><span>Built by Hikari Tech · Casablanca · 2026</span></footer>
+      <footer className="start-footer"><a href="/" aria-label="Agent 71 home"><BrandLockup /></a><span>Built by Hikari Tech · Casablanca · 2026</span></footer>
     </div>
   )
 }
