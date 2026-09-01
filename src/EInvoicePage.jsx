@@ -2,8 +2,10 @@ import {
   ArrowRight, Building2, Check, CircleHelp, Database, FileCheck2,
   FileText, Landmark, LockKeyhole, RefreshCw, Send, ShieldCheck,
 } from 'lucide-react'
+import { useRef } from 'react'
 import BanknoteArt from './BanknoteArt'
 import { DevelopmentCTA, InfoFooter, InfoHeader } from './InfoPageChrome'
+import { usePageMotion } from './usePageMotion'
 
 const changes = [
   [Database, 'Structured at the source', 'Invoice data needs to be consistent and machine-readable, not trapped inside manually prepared documents.'],
@@ -37,7 +39,9 @@ function ReadinessFlow() {
 }
 
 export default function EInvoicePage() {
-  return <div className="info-page einvoice-page">
+  const pageRef = useRef(null)
+  usePageMotion(pageRef, 'einvoice')
+  return <div className="info-page einvoice-page" ref={pageRef}>
     <InfoHeader />
     <main>
       <section className="einvoice-page-hero">
@@ -46,21 +50,33 @@ export default function EInvoicePage() {
         <ReadinessFlow />
       </section>
 
-      <section className="einvoice-change" id="framework"><header><h2>More than a PDF.</h2><p>The practical shift is from a document people read to data that systems can also process, verify, and track.</p></header><div>{changes.map(([Icon,title,copy],index)=><article key={title}><span>{String(index+1).padStart(2,'0')}</span><Icon /><h3>{title}</h3><p>{copy}</p></article>)}</div></section>
+      <section className="einvoice-change" id="framework" data-motion="section"><header data-motion="heading"><h2>More than a PDF.</h2><p>The practical shift is from a document people read to data that systems can also process, verify, and track.</p></header><div>{changes.map(([Icon,title,copy],index)=><article key={title} data-motion-card><span>{String(index+1).padStart(2,'0')}</span><Icon /><h3>{title}</h3><p>{copy}</p></article>)}</div></section>
 
-      <section className="einvoice-state">
-        <div className="einvoice-state-heading"><h2>What is clear.<br /><em>What is still moving.</em></h2><p>We separate published legal foundations from implementation details that businesses should continue to verify.</p></div>
-        <div className="state-columns">
-          <article className="state-known"><header><Check />Established foundation</header><ul><li>The 2026 General Tax Code is the current consolidated tax reference.</li><li>Article 145 includes the legal basis for invoicing systems that meet technical criteria set by the administration.</li><li>Existing invoice content and record-keeping duties continue to matter.</li><li>Law 43-20 provides the legal framework for electronic signatures, seals, timestamps, and trust services.</li></ul></article>
-          <article className="state-pending"><header><CircleHelp />Confirm before acting</header><ul><li>The precise date your business becomes subject to the operational regime.</li><li>The final technical schema, transmission, validation, and acknowledgement rules.</li><li>Registration, provider, certificate, testing, and onboarding procedures.</li><li>Any rollout-specific sanctions, exceptions, or transition arrangements.</li></ul></article>
+      <section className="einvoice-state" data-motion="section">
+        <img className="einvoice-state-art" src="/art/einvoice-clarity-landscape.png" alt="Illustrated transition from established records to an evolving digital invoicing landscape" width="2172" height="724" decoding="async" data-parallax />
+        <div className="einvoice-state-content">
+          <div className="einvoice-state-heading" data-motion="heading"><h2>What is clear.<br /><em>What is still moving.</em></h2><p>We separate published legal foundations from implementation details that businesses should continue to verify.</p></div>
+          <div className="state-columns">
+            <article className="state-known" data-motion-card><header><Check />Established foundation</header><ul><li>The 2026 General Tax Code is the current consolidated tax reference.</li><li>Article 145 includes the legal basis for invoicing systems that meet technical criteria set by the administration.</li><li>Existing invoice content and record-keeping duties continue to matter.</li><li>Law 43-20 provides the legal framework for electronic signatures, seals, timestamps, and trust services.</li></ul></article>
+            <article className="state-pending" data-motion-card><header><CircleHelp />Confirm before acting</header><ul><li>The precise date your business becomes subject to the operational regime.</li><li>The final technical schema, transmission, validation, and acknowledgement rules.</li><li>Registration, provider, certificate, testing, and onboarding procedures.</li><li>Any rollout-specific sanctions, exceptions, or transition arrangements.</li></ul></article>
+          </div>
         </div>
       </section>
 
-      <section className="einvoice-prepare" id="prepare"><header><h2>Prepare the parts<br />you control today.</h2><p>You do not need to guess the final specification to improve the quality of your data and process.</p></header><ol>{prepare.map(([title,copy],index)=><li key={title}><span>{String(index+1).padStart(2,'0')}</span><div><h3>{title}</h3><p>{copy}</p></div></li>)}</ol></section>
+      <section className="einvoice-prepare" id="prepare" data-horizontal-section>
+        <div className="prepare-pin" data-horizontal-pin>
+          <img className="prepare-art" src="/art/einvoice-prepare-modules.png" alt="Five illustrated modules for preparing business invoice operations" width="1728" height="960" decoding="async" />
+          <header data-motion="heading"><span>Preparation, in five moves</span><h2>Control what you can.<br /><em>Stay ready for what changes.</em></h2><p>You do not need to guess the final specification to improve the quality of your data and process.</p></header>
+          <div className="prepare-viewport" data-horizontal-viewport>
+            <ol className="prepare-track" data-horizontal-track>{prepare.map(([title,copy],index)=><li key={title} data-prepare-card><span>{String(index+1).padStart(2,'0')}</span><div><h3>{title}</h3><p>{copy}</p></div><i aria-hidden="true" /></li>)}</ol>
+          </div>
+          <div className="prepare-progress" aria-hidden="true"><span>01</span><i /><span>05</span><small>Scroll to explore</small></div>
+        </div>
+      </section>
 
-      <section className="einvoice-agent"><BanknoteArt variant="city" className="einvoice-agent-art" /><div><LockKeyhole /><h2>How Agent 71 is being built for the shift.</h2><p>Structured source records, configurable invoice fields, controlled corrections, status history, role-based approvals, and an integration layer that can evolve when the final rules are published.</p><a href="mailto:contact@hikaritech.ma">Discuss your invoicing workflow <ArrowRight /></a></div></section>
+      <section className="einvoice-agent" data-motion="section"><img className="einvoice-agent-background" src="/art/einvoice-integration-corridor.png" alt="Illustrated record corridor connecting Moroccan businesses to a trusted digital gateway" width="1776" height="895" decoding="async" data-parallax /><div className="einvoice-agent-copy" data-motion="heading"><span><LockKeyhole />Built to adapt</span><h2>How Agent 71 is being built for the shift.</h2><p>Structured source records, configurable invoice fields, controlled corrections, status history, role-based approvals, and an integration layer that can evolve when the final rules are published.</p><a href="mailto:contact@hikaritech.ma">Discuss your invoicing workflow <ArrowRight /></a></div></section>
 
-      <section className="einvoice-sources"><header><h2>Official references.</h2><p>Regulatory guidance changes. Verify your situation with the DGI and a qualified adviser.</p></header><div>{sources.map(([title,copy,href])=><a href={href} target="_blank" rel="noreferrer" key={title}><strong>{title}</strong><span>{copy}</span><ArrowRight /></a>)}</div></section>
+      <section className="einvoice-sources" data-motion="section"><header data-motion="heading"><h2>Official references.</h2><p>Regulatory guidance changes. Verify your situation with the DGI and a qualified adviser.</p></header><div>{sources.map(([title,copy,href])=><a href={href} target="_blank" rel="noreferrer" key={title} data-motion-card><strong>{title}</strong><span>{copy}</span><ArrowRight /></a>)}</div></section>
       <DevelopmentCTA />
     </main>
     <InfoFooter />

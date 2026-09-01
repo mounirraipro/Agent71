@@ -1,5 +1,7 @@
 import { ArrowRight, FileText, LockKeyhole } from 'lucide-react'
+import { useRef } from 'react'
 import { InfoFooter, InfoHeader } from './InfoPageChrome'
+import { usePageMotion } from './usePageMotion'
 
 const termsSections = [
   ['Using this website', 'You may use this website to learn about Agent 71 and contact HikariTech. You must not misuse the website, attempt unauthorized access, interfere with its operation, introduce malicious code, or use its content unlawfully.'],
@@ -31,9 +33,11 @@ const policies = {
 export default function LegalPage({ type }) {
   const policy = policies[type]
   const Icon = policy.icon
-  return <div className="info-page legal-page"><InfoHeader /><main>
-    <section className="legal-hero"><div><Icon /><h1>{policy.title}</h1><p>{policy.intro}</p><small>Effective 1 September 2026</small></div></section>
-    <section className="legal-layout"><aside><strong>On this page</strong>{policy.sections.map(([title],index)=><a href={'#section-'+(index+1)} key={title}>{String(index+1).padStart(2,'0')} {title}</a>)}</aside><article>{policy.sections.map(([title,copy],index)=><section id={'section-'+(index+1)} key={title}><span>{String(index+1).padStart(2,'0')}</span><div><h2>{title}</h2><p>{copy}</p>{type==='privacy' && index===6 ? <a href="https://www.cndp.ma/personnes-concernees/" target="_blank" rel="noreferrer">Learn about your CNDP rights <ArrowRight /></a> : null}</div></section>)}</article></section>
+  const pageRef = useRef(null)
+  usePageMotion(pageRef, 'legal')
+  return <div className="info-page legal-page" ref={pageRef}><InfoHeader /><main>
+    <section className="legal-hero"><img src="/art/legal-trust-archive.png" alt="Illustrated protected archive representing careful stewardship of business records" width="1880" height="868" decoding="async" data-motion-art /><div><span className="legal-hero-icon"><Icon /></span><h1>{policy.title}</h1><p>{policy.intro}</p><small>Effective 1 September 2026</small></div></section>
+    <section className="legal-layout" data-motion="section"><aside><strong>On this page</strong>{policy.sections.map(([title],index)=><a href={'#section-'+(index+1)} key={title}>{String(index+1).padStart(2,'0')} {title}</a>)}</aside><article>{policy.sections.map(([title,copy],index)=><section id={'section-'+(index+1)} key={title} data-motion-card><span>{String(index+1).padStart(2,'0')}</span><div><h2>{title}</h2><p>{copy}</p>{type==='privacy' && index===6 ? <a href="https://www.cndp.ma/personnes-concernees/" target="_blank" rel="noreferrer">Learn about your CNDP rights <ArrowRight /></a> : null}</div></section>)}</article></section>
     <section className="legal-contact"><h2>Still have a question?</h2><a href="mailto:contact@hikaritech.ma">contact@hikaritech.ma <ArrowRight /></a></section>
   </main><InfoFooter /></div>
 }
