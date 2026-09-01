@@ -1,0 +1,10 @@
+[data-motion="heading"] { will-change: transform, opacity; }
+[data-motion-card], [data-parallax], [data-motion-art] { will-change: transform; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-motion="heading"], [data-motion-card], [data-parallax], [data-motion-art] {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+}

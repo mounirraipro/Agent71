@@ -10,6 +10,7 @@ import ProductFooter from './ProductFooter'
 import BanknoteArt from './BanknoteArt'
 import { BrandLockup, LogoMark } from './BrandLogo'
 import { LanguageSwitcher } from './i18n'
+import { usePageMotion } from './usePageMotion'
 
 const sidebarItems = [
   [Gauge, 'Home'], [BarChart3, 'Dashboard'], [ShoppingBag, 'Sales'],
@@ -201,20 +202,22 @@ function InvoiceDocument() {
 
 function EInvoicing() {
   return (
-    <section className="einvoicing section-pad" id="e-invoicing">
+    <section className="einvoicing section-pad" id="e-invoicing" data-motion="section">
       <BanknoteArt variant="sahara" className="currency-art--einvoicing" />
       <div className="einvoice-shell">
-        <Reveal className="einvoice-copy">
+        <Reveal className="einvoice-copy" data-motion="heading">
           <h2>Ready for Morocco’s<br />e-invoicing shift.</h2>
           <p>Create structured invoices, keep the right records, and connect compliance to the rest of your operation.</p>
           <div className="einvoice-points"><span><FileCheck2 />Structured</span><span><Mail />Connected</span><span><SlidersHorizontal />Adaptable</span></div>
         </Reveal>
-        <Reveal className="invoice-preview" delay={120}><InvoiceDocument /></Reveal>
+        <Reveal className="invoice-preview" delay={120} data-motion-card><InvoiceDocument /></Reveal>
       </div>
     </section>
   )
 }
 
 export default function App() {
-  return <><Header /><main><Hero /><Benefits /><EInvoicing /></main><ProductFooter /></>
+  const pageRef = useRef(null)
+  usePageMotion(pageRef, 'home')
+  return <div ref={pageRef} className="app-shell"><Header /><main><Hero /><Benefits /><EInvoicing /></main><ProductFooter /></div>
 }

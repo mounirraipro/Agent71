@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import {
   ArrowLeft, ArrowRight, BarChart3, Boxes, BriefcaseBusiness, Building2,
   Check, Factory, FileText, Landmark, Layers3, Network, ScanLine,
@@ -7,6 +7,7 @@ import {
 import BanknoteArt from './BanknoteArt'
 import { BrandLockup, LogoMark } from './BrandLogo'
 import { LanguageSwitcher } from './i18n'
+import { usePageMotion } from './usePageMotion'
 
 const productAreas = [
   {
@@ -124,8 +125,10 @@ function ProductExplorer() {
 }
 
 export default function StartPage() {
+  const pageRef = useRef(null)
+  usePageMotion(pageRef, 'product')
   return (
-    <div className="start-page">
+    <div className="start-page" ref={pageRef}>
       <header className="start-header">
         <a className="start-back" href="/" aria-label="Back to Agent 71"><ArrowLeft /><span>Back to Agent 71</span></a>
         <a className="start-wordmark" href="/" aria-label="Agent 71 home"><BrandLockup /></a>
@@ -142,19 +145,19 @@ export default function StartPage() {
           <HeroFlow />
         </section>
 
-        <section className="scope-section" id="modules">
+        <section className="scope-section" id="modules" data-motion="section">
           <BanknoteArt variant="rural" className="currency-art--scope" />
-          <div className="scope-heading"><div><h2>Explore the system.</h2><p>Five connected areas. One operational record.</p></div><aside>Choose an area to see how Agent 71 is being shaped around the way modern businesses sell, move, account, and grow.</aside></div>
-          <ProductExplorer />
+          <div className="scope-heading" data-motion="heading"><div><h2>Explore the system.</h2><p>Five connected areas. One operational record.</p></div><aside>Choose an area to see how Agent 71 is being shaped around the way modern businesses sell, move, account, and grow.</aside></div>
+          <div data-motion-card><ProductExplorer /></div>
         </section>
 
-        <section className="local-section">
+        <section className="local-section" data-motion="section">
           <BanknoteArt variant="sahara" className="currency-art--local" />
-          <div className="local-heading"><h2>Global ERP thinking.<br /><em>Built for Morocco.</em></h2><p>Agent 71 pairs broad operational capability with the localization Moroccan businesses actually need.</p></div>
-          <div className="local-list">{localCapabilities.map(([Icon, title, description], index) => <article key={title}><span>{String(index + 1).padStart(2, '0')}</span><Icon /><div><h3>{title}</h3><p>{description}</p></div></article>)}</div>
+          <div className="local-heading" data-motion="heading"><h2>Global ERP thinking.<br /><em>Built for Morocco.</em></h2><p>Agent 71 pairs broad operational capability with the localization Moroccan businesses actually need.</p></div>
+          <div className="local-list">{localCapabilities.map(([Icon, title, description], index) => <article key={title} data-motion-card><span>{String(index + 1).padStart(2, '0')}</span><Icon /><div><h3>{title}</h3><p>{description}</p></div></article>)}</div>
         </section>
 
-        <section className="start-final">
+        <section className="start-final" data-motion="section">
           <BanknoteArt variant="sea" className="currency-art--start-final" />
           <p>Agent 71 is in development.</p>
           <h2>Tell us what your<br />business needs.</h2>

@@ -11,6 +11,7 @@ import './styles.css'
 import './reference-sections.css'
 import './banknote-art.css'
 import './i18n.css'
+import './motion.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

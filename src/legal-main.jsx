@@ -11,6 +11,7 @@ import './start.css'
 import './info-pages.css'
 import './banknote-art.css'
 import './i18n.css'
+import './motion.css'
 
 const type = window.location.pathname.includes('privacy') ? 'privacy' : 'terms'
 createRoot(document.getElementById('root')).render(<StrictMode><I18nProvider><LegalPage type={type} /></I18nProvider></StrictMode>)

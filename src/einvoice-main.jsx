@@ -11,5 +11,6 @@ import './start.css'
 import './info-pages.css'
 import './banknote-art.css'
 import './i18n.css'
+import './motion.css'
 
 createRoot(document.getElementById('root')).render(<StrictMode><I18nProvider><EInvoicePage /></I18nProvider></StrictMode>)

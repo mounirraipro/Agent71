@@ -207,7 +207,7 @@ export default function BenefitTriptych() {
   }, [])
 
   return (
-    <section className="reference-benefits" id="benefits" ref={rootRef} aria-label="Product benefits">
+    <section className="reference-benefits" id="benefits" ref={rootRef} aria-label="Product benefits" data-motion="section">
       <BanknoteArt variant="rural" className="currency-art--benefits" />
       <div className="reference-benefits-heading">
         <h2>Everything your business needs<br />to <span>move faster.</span></h2>
