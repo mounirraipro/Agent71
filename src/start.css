@@ -10,7 +10,7 @@ svg { display: block; }
 .start-back svg { width: 15px; }
 .start-wordmark { font-family: 'Instrument Serif', Georgia, serif; font-size: 30px; letter-spacing: -.03em; }
 .start-contact-link { justify-self: end; padding-bottom: 4px; border-bottom: 1px solid #28282b; }
-.start-hero { width: min(calc(100% - 64px), 1440px); min-height: 720px; margin: 0 auto; display: grid; grid-template-columns: 1.04fr .96fr; align-items: center; gap: 70px; border-top: 1px solid #d9dad6; }
+.start-hero { width: 100%; min-height: 720px; margin: 0 auto; padding-inline: max(32px, calc((100vw - 1440px)/2)); display: grid; grid-template-columns: 1.04fr .96fr; align-items: center; gap: 70px; border-top: 1px solid #d9dad6; }
 .start-hero-copy h1, .scope-heading h2, .local-heading h2, .start-final h2 { margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(62px, 6.4vw, 102px); font-weight: 400; line-height: .92; letter-spacing: -.05em; }
 .start-hero-copy h1 em, .local-heading h2 em { font-weight: 400; }
 .start-hero-copy > p { max-width: 670px; margin: 30px 0 0; color: #62636b; font-size: clamp(17px, 1.4vw, 21px); line-height: 1.55; }
@@ -88,7 +88,7 @@ svg { display: block; }
   .start-back { font-size: 0; }
   .start-back svg { width: 20px; }
   .start-contact-link { font-size: 12px; }
-  .start-hero { width: calc(100% - 32px); min-height: 0; padding: 72px 0; gap: 56px; }
+  .start-hero { width: 100%; min-height: 0; padding: 72px 16px; gap: 56px; }
   .start-hero-copy h1 { font-size: 56px; }
   .start-hero-copy > p { font-size: 16px; }
   .start-hero-copy > div { align-items: stretch; flex-direction: column; }
