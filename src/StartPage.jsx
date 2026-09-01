@@ -144,7 +144,7 @@ export default function StartPage() {
           <a href="mailto:contact@hikaritech.ma">contact@hikaritech.ma <ArrowRight /></a>
         </section>
       </main>
-      <footer className="start-footer"><a href="/" aria-label="Agent 71 home"><BrandLockup /></a><span>Built by Hikari Tech · Casablanca · 2026</span></footer>
+      <footer className="start-footer"><a href="/" aria-label="Agent 71 home"><BrandLockup /></a><span>Built by <a className="start-hikari-link" href="https://hikaritech.ma" target="_blank" rel="noreferrer">HikariTech</a> · Casablanca · 2026</span></footer>
     </div>
   )
 }

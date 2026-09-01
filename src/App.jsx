@@ -83,9 +83,9 @@ function DashboardSidebar() {
           <button className={index === 0 ? 'is-active' : ''} type="button" key={label}><Icon /><span>{label}</span></button>
         ))}
       </nav>
-      <button className="company-switcher" type="button">
-        <Building2 /><span><strong>Hikari Tech</strong><small>Casablanca</small></span><ChevronDown />
-      </button>
+      <a className="company-switcher" href="https://hikaritech.ma" target="_blank" rel="noreferrer" aria-label="Visit HikariTech">
+        <Building2 /><span><strong>HikariTech</strong><small>Casablanca</small></span><ChevronDown />
+      </a>
     </aside>
   )
 }
