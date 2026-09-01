@@ -1,9 +1,10 @@
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import BanknoteArt from './BanknoteArt'
 import { BrandLockup } from './BrandLogo'
+import { LanguageSwitcher } from './i18n'
 
 export function InfoHeader() {
-  return <header className="start-header info-header"><a className="start-back" href="/"><ArrowLeft /><span>Back to Agent 71</span></a><a className="start-wordmark" href="/" aria-label="Agent 71 home"><BrandLockup /></a><a className="start-contact-link" href="mailto:contact@hikaritech.ma">Contact us</a></header>
+  return <header className="start-header info-header"><a className="start-back" href="/" aria-label="Back to Agent 71"><ArrowLeft /><span>Back to Agent 71</span></a><a className="start-wordmark" href="/" aria-label="Agent 71 home"><BrandLockup /></a><div className="start-header-actions"><LanguageSwitcher /><a className="start-contact-link" href="mailto:contact@hikaritech.ma">Contact us</a></div></header>
 }
 
 export function DevelopmentCTA() {

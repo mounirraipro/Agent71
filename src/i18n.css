@@ -1,0 +1,63 @@
+.language-switcher {
+  direction: ltr;
+  width: max-content;
+  padding: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid #dddde4;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .9);
+  box-shadow: 0 3px 12px rgba(22, 22, 28, .05);
+}
+
+.language-switcher button {
+  min-width: 31px;
+  height: 29px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #777781;
+  font: 700 11px/1 'Inter Variable', Inter, sans-serif;
+  letter-spacing: .02em;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+.language-switcher button:hover { color: #26262c; }
+.language-switcher button[aria-pressed='true'] { background: #24242a; color: #fff; box-shadow: 0 2px 7px rgba(0,0,0,.16); }
+.nav-actions, .start-header-actions { display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
+
+html[lang='ar'] body { font-family: Tahoma, Arial, sans-serif; }
+html[lang='ar'] h1,
+html[lang='ar'] h2,
+html[lang='ar'] h3,
+html[lang='ar'] .start-wordmark { font-family: 'Traditional Arabic', Tahoma, Arial, sans-serif; letter-spacing: 0; }
+html[dir='rtl'] .start-back svg { transform: rotate(180deg); }
+html[dir='rtl'] .button svg,
+html[dir='rtl'] .start-primary svg,
+html[dir='rtl'] .product-index button > svg:last-child,
+html[dir='rtl'] .einvoice-page a svg,
+html[dir='rtl'] .legal-page a svg { transform: rotate(180deg); }
+html[dir='rtl'] .dashboard-frame,
+html[dir='rtl'] .invoice-app,
+html[dir='rtl'] .start-hero-console,
+html[dir='rtl'] .readiness-flow,
+html[dir='rtl'] .reference-footer-watermark { direction: ltr; }
+html[dir='rtl'] .dashboard-frame,
+html[dir='rtl'] .invoice-app { text-align: left; }
+html[dir='rtl'] .reference-card-copy,
+html[dir='rtl'] .scope-heading,
+html[dir='rtl'] .product-stage,
+html[dir='rtl'] .local-heading,
+html[dir='rtl'] .einvoice-page main,
+html[dir='rtl'] .legal-page main { text-align: right; }
+
+@media (max-width: 760px) {
+  .language-switcher { padding: 2px; }
+  .language-switcher button { min-width: 28px; height: 27px; padding: 0 6px; font-size: 10px; }
+  .nav-actions { margin-inline-start: auto; }
+  .start-header-actions { gap: 8px; }
+  .start-header-actions .start-contact-link { display: none; }
+}

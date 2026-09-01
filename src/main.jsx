@@ -5,12 +5,14 @@ import '@fontsource/instrument-serif/400-italic.css'
 import '@fontsource-variable/inter'
 import '@fontsource-variable/caveat'
 import App from './App'
+import { I18nProvider } from './i18n'
 import './styles.css'
 import './reference-sections.css'
 import './banknote-art.css'
+import './i18n.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <I18nProvider><App /></I18nProvider>
   </StrictMode>,
 )

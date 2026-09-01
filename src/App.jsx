@@ -9,6 +9,7 @@ import BenefitTriptych from './BenefitTriptych'
 import ProductFooter from './ProductFooter'
 import BanknoteArt from './BanknoteArt'
 import { BrandLockup, LogoMark } from './BrandLogo'
+import { LanguageSwitcher } from './i18n'
 
 const sidebarItems = [
   [Gauge, 'Home'], [BarChart3, 'Dashboard'], [ShoppingBag, 'Sales'],
@@ -58,7 +59,7 @@ function Header() {
           <a href="/start.html#modules" onClick={close}>Modules</a>
           <a className="mobile-start" href="/start.html" onClick={close}>Start free</a>
         </nav>
-        <a className="button button--compact desktop-start" href="/start.html">Start free</a>
+        <div className="nav-actions"><LanguageSwitcher /><a className="button button--compact desktop-start" href="/start.html">Start free</a></div>
       </div>
     </header>
   )
